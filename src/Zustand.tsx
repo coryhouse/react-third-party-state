@@ -1,5 +1,6 @@
 import { create } from "zustand";
 
+// Or, can split into separate state and actions: https://docs.pmnd.rs/zustand/getting-started/comparison#redux
 type Store = {
   count: number;
   inc: () => void;
@@ -7,6 +8,7 @@ type Store = {
 
 const useStore = create<Store>()((set) => ({
   count: 1,
+  // Could use useReducer here: https://docs.pmnd.rs/zustand/getting-started/comparison#redux
   inc: () => set((state) => ({ count: state.count + 1 })),
 }));
 
