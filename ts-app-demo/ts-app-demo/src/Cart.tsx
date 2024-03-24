@@ -1,11 +1,12 @@
 import Spinner from "./Spinner";
 import { useNavigate } from "react-router-dom";
-import { Item, useCart } from "./cartContext";
 import { Product } from "./Detail";
 import useFetch from "./services/useFetch";
+import { useAtom } from "jotai";
+import { Item, cartAtom } from "./atoms/cartAtom";
 
 export default function Cart() {
-  const { items, dispatch } = useCart();
+  const [items, setItems] = useAtom(cartAtom);
   const navigate = useNavigate();
   const url = "products?" + items.map(({ id }) => "id=" + id).join("&");
   const { data: products, loading, error } = useFetch<Product[]>(url);
@@ -27,13 +28,15 @@ export default function Cart() {
           <p>
             <select
               aria-label={`Select quantity for ${name} size ${size}`}
-              onChange={(e) =>
-                dispatch({
-                  type: "updateQuantity",
-                  sku,
-                  quantity: parseInt(e.target.value),
-                })
-              }
+              onChange={(e) => {
+                setItems((prev) =>
+                  prev.map((i) =>
+                    i.sku === sku
+                      ? { ...i, quantity: parseInt(e.target.value) }
+                      : i
+                  )
+                );
+              }}
               value={quantity}
             >
               <option value="0">Remove</option>
