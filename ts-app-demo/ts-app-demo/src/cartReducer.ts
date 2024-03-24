@@ -1,11 +1,6 @@
-import { Item } from "./cartContext";
+import { CartAction, CartItem } from "./types/types";
 
-export type CartAction =
-  | { type: "add"; id: number; sku: string }
-  | { type: "empty" }
-  | { type: "updateQuantity"; sku: string; quantity: number };
-
-export default function cartReducer(cart: Item[], action: CartAction) {
+export default function cartReducer(cart: CartItem[], action: CartAction) {
   switch (action.type) {
     case "empty":
       return [];

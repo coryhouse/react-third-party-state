@@ -1,22 +1,15 @@
 import React, { useReducer, useEffect, useContext } from "react";
 import cartReducer, { CartAction } from "./cartReducer";
+import { CartItem } from "./types/types";
 
 export const CartContext = React.createContext<CartContextType | null>(null);
 
 type CartContextType = {
-  items: Item[];
+  items: CartItem[];
   dispatch: React.Dispatch<CartAction>;
 };
 
-export interface Item {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  sku: string;
-}
-
-let initialCart: Item[] = [];
+let initialCart: CartItem[] = [];
 try {
   const cart = localStorage.getItem("cart");
   const parsedCart: any[] = cart ? JSON.parse(cart) : [];
