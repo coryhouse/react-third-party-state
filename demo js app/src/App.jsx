@@ -4,7 +4,7 @@ import Footer from "./Footer";
 import Header from "./Header";
 import Products from "./Products";
 import { Routes, Route } from "react-router-dom";
-import Detail from "./Detail.class";
+import Detail from "./Detail";
 import Cart from "./Cart";
 import Checkout from "./Checkout";
 import { useCart } from "./cartContext";
