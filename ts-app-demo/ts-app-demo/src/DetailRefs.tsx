@@ -1,17 +1,20 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import useFetch from "./services/useFetch";
 import Spinner from "./Spinner";
 import PageNotFound from "./PageNotFound";
+import { useCart } from "./cartContext";
+import { Product } from "./types/types";
 
-export default function Detail(props) {
+export default function Detail() {
+  const { dispatch } = useCart();
   const { id } = useParams();
-  const skuRef = useRef();
+  const skuRef = useRef<HTMLSelectElement>(null);
   const navigate = useNavigate();
-  const { data: product, loading, error } = useFetch(`products/${id}`);
+  const { data: product, loading, error } = useFetch<Product>(`products/${id}`);
 
   if (loading) return <Spinner />;
-  if (!product) return <PageNotFound />;
+  if (!product || !id) return <PageNotFound />;
   if (error) throw error;
 
   return (
@@ -33,9 +36,9 @@ export default function Detail(props) {
         <button
           className="btn btn-primary"
           onClick={() => {
-            const sku = skuRef.current.value;
+            const sku = skuRef.current?.value;
             if (!sku) return alert("Select size.");
-            props.addToCart(id, sku);
+            dispatch({ type: "add", id: parseInt(id), sku });
             navigate("/cart");
           }}
         >

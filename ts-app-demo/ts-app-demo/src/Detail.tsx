@@ -4,21 +4,7 @@ import useFetch from "./services/useFetch";
 import Spinner from "./Spinner";
 import PageNotFound from "./PageNotFound";
 import { useCart } from "./cartContext";
-
-export type Product = {
-  id: number;
-  name: string;
-  image: string;
-  description: string;
-  price: number;
-  category: string;
-  skus: Sku[];
-};
-
-type Sku = {
-  sku: string;
-  size: number;
-};
+import { Product } from "./types/types";
 
 export default function Detail() {
   const { dispatch } = useCart();
@@ -28,7 +14,7 @@ export default function Detail() {
   const { data: product, loading, error } = useFetch<Product>(`products/${id}`);
 
   if (loading) return <Spinner />;
-  if (!product) return <PageNotFound />;
+  if (!product || !id) return <PageNotFound />;
   if (error) throw error;
 
   return (
@@ -51,7 +37,7 @@ export default function Detail() {
           disabled={!sku}
           className="btn btn-primary"
           onClick={() => {
-            dispatch({ type: "add", id, sku });
+            dispatch({ type: "add", id: parseInt(id), sku });
             navigate("/cart");
           }}
         >
