@@ -1,4 +1,11 @@
-export default function cartReducer(cart, action) {
+import { Item } from "./cartContext";
+
+export type CartAction =
+  | { type: "add"; id: number; sku: string }
+  | { type: "empty" }
+  | { type: "updateQuantity"; sku: string; quantity: number };
+
+export default function cartReducer(cart: Item[], action: CartAction) {
   switch (action.type) {
     case "empty":
       return [];
@@ -22,6 +29,6 @@ export default function cartReducer(cart, action) {
       }
     }
     default:
-      throw new Error("Unhandled action " + action.type);
+      throw new Error("Unhandled action ");
   }
 }
