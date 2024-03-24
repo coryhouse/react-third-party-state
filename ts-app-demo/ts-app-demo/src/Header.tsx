@@ -1,13 +1,8 @@
-import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useCart } from "./cartContext";
 
-const activeStyle = {
-  color: "purple",
-};
-
 export default function Header() {
-  const cart = useCart();
+  const { cart } = useCart();
   return (
     <header>
       <nav>
@@ -18,14 +13,10 @@ export default function Header() {
             </Link>
           </li>
           <li>
-            <NavLink to="/shoes">
-              Shoes
-            </NavLink>
+            <NavLink to="/shoes">Shoes</NavLink>
           </li>
           <li>
-            <NavLink to="/cart">
-              Cart ({cart.length})
-            </NavLink=>
+            <NavLink to="/cart">Cart ({cart.length})</NavLink>
           </li>
         </ul>
       </nav>

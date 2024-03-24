@@ -5,7 +5,7 @@ export const CartContext = React.createContext<CartContextType | null>(null);
 
 type CartContextType = {
   cart: Cart[];
-  dispatch: React.Dispatch<Action>;
+  dispatch: React.Dispatch<Cart>;
 };
 
 export interface Cart {

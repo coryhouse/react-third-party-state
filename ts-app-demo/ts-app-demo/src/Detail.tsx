@@ -5,7 +5,7 @@ import Spinner from "./Spinner";
 import PageNotFound from "./PageNotFound";
 import { useCart } from "./cartContext";
 
-type Product = {
+export type Product = {
   id: number;
   sku: string;
   name: string;
@@ -18,7 +18,7 @@ type Product = {
 
 type Sku = {
   sku: string;
-  size: string;
+  size: number;
 };
 
 export default function Detail() {

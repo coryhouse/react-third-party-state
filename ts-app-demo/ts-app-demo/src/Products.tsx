@@ -1,19 +1,22 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Spinner from "./Spinner";
 import useFetch from "./services/useFetch";
 import { useParams } from "react-router-dom";
 import PageNotFound from "./PageNotFound";
 import { Link } from "react-router-dom";
+import { Product } from "./Detail";
 
 export default function Products() {
   const [size, setSize] = useState("");
   const { category } = useParams();
 
-  const { data: products, loading, error } = useFetch(
-    "products?category=" + category
-  );
+  const {
+    data: products,
+    loading,
+    error,
+  } = useFetch<Product[]>("products?category=" + category);
 
-  function renderProduct(p) {
+  function renderProduct(p: Product) {
     return (
       <div key={p.id} className="product">
         <Link to={`/${category}/${p.id}`}>
@@ -25,13 +28,13 @@ export default function Products() {
     );
   }
 
+  if (error) throw error;
+  if (loading) return <Spinner />;
+  if (!products || products.length === 0) return <PageNotFound />;
+
   const filteredProducts = size
     ? products.filter((p) => p.skus.find((s) => s.size === parseInt(size)))
     : products;
-
-  if (error) throw error;
-  if (loading) return <Spinner />;
-  if (products.length === 0) return <PageNotFound />;
 
   return (
     <>
