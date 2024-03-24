@@ -1,8 +1,9 @@
 import { Link, NavLink } from "react-router-dom";
-import { useCart } from "./cartContext";
+import { cartAtom } from "./atoms/cartAtom";
+import { useAtom } from "jotai";
 
 export default function Header() {
-  const { items: cart } = useCart();
+  const [cart] = useAtom(cartAtom);
   return (
     <header>
       <nav>
