@@ -12,3 +12,8 @@ type Sku = {
   sku: string;
   size: number;
 };
+
+export type ShippingAddress = {
+  city: string;
+  country: string;
+};
