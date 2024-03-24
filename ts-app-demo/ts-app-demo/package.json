@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "@faker-js/faker": "^8.4.1",
+    "@tanstack/react-query": "^5.28.6",
+    "@tanstack/react-query-devtools": "^5.28.6",
     "concurrently": "^8.2.2",
     "cross-env": "^7.0.3",
     "immer": "^10.0.4",

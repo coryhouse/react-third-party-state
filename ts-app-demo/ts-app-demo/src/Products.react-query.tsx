@@ -1,19 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Spinner from "./Spinner";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import PageNotFound from "./PageNotFound";
-import { Link } from "react-router-dom";
-import { useQuery } from "react-query";
-
-// Copied from productService.js.
-// Added key arg since react-query passes the query key as the first argument.
-export async function getProducts(key, category) {
-  const response = await fetch(
-    process.env.REACT_APP_API_BASE_URL + "products?category=" + category
-  );
-  if (response.ok) return response.json();
-  throw response;
-}
+import { useQuery } from "@tanstack/react-query";
+import { Product } from "./types/types";
 
 export default function Products() {
   const { category } = useParams();
@@ -22,9 +12,18 @@ export default function Products() {
     data: products,
     isLoading,
     error,
-  } = useQuery(["products", category], getProducts);
+  } = useQuery({
+    queryKey: ["products", category],
+    queryFn: async () => {
+      const response = await fetch(
+        import.meta.env.VITE_APP_API_BASE_URL + "products?category=" + category
+      );
+      if (response.ok) return response.json();
+      throw response;
+    },
+  });
 
-  function renderProduct(p) {
+  function renderProduct(p: Product) {
     return (
       <div key={p.id} className="product">
         <Link to={`/${category}/${p.id}`}>
