@@ -1,21 +1,21 @@
-import React from "react";
-import useFetchAll from "./services/useFetchAll";
 import Spinner from "./Spinner";
 import { useNavigate } from "react-router-dom";
-import { useCart } from "./cartContext";
+import { Item, useCart } from "./cartContext";
+import { Product } from "./Detail";
+import useFetch from "./services/useFetch";
 
 export default function Cart() {
-  const { cart, dispatch } = useCart();
+  const { items, dispatch } = useCart();
   const navigate = useNavigate();
-  const urls = cart.map((i) => `products/${i.id}`);
-  const { data: products, loading, error } = useFetchAll(urls);
+  const url = "products/" + items.map(({ id }) => "?id=" + id).join("&");
+  const { data: products, loading, error } = useFetch<Product[]>(url);
 
-  function renderItem(itemInCart) {
-    const { id, sku, quantity } = itemInCart;
-    const { price, name, image, skus } = products.find(
-      (p) => p.id === parseInt(id)
-    );
-    const { size } = skus.find((s) => s.sku === sku);
+  function renderItem(itemInCart: Item, product: Product) {
+    const { sku, quantity } = itemInCart;
+    const { name, image, skus, price } = product;
+    const matchingSku = skus.find((s) => s.sku === sku);
+    if (!matchingSku) throw new Error("Sku not found");
+    const { size } = matchingSku;
 
     return (
       <li key={sku} className="cart-item">
@@ -49,10 +49,13 @@ export default function Cart() {
     );
   }
 
-  if (loading) return <Spinner />;
+  if (loading || !products) return <Spinner />;
   if (error) throw error;
 
-  const numItemsInCart = cart.reduce((total, item) => total + item.quantity, 0);
+  const numItemsInCart = items.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
 
   return (
     <section id="cart">
@@ -61,8 +64,14 @@ export default function Cart() {
           ? "Your cart is empty"
           : `${numItemsInCart} Item${numItemsInCart > 1 ? "s" : ""} in My Cart`}
       </h1>
-      <ul>{cart.map(renderItem)}</ul>
-      {cart.length > 0 && (
+      <ul>
+        {items.map((cartItem) => {
+          const product = products.find((p) => p.id === cartItem.id);
+          if (!product) throw new Error("Product not found");
+          return renderItem(cartItem, product);
+        })}
+      </ul>
+      {items.length > 0 && (
         <button
           className="btn btn-primary"
           onClick={() => navigate("/checkout")}
