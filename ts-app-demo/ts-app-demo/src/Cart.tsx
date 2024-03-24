@@ -7,7 +7,7 @@ import useFetch from "./services/useFetch";
 export default function Cart() {
   const { items, dispatch } = useCart();
   const navigate = useNavigate();
-  const url = "products/" + items.map(({ id }) => "?id=" + id).join("&");
+  const url = "products?" + items.map(({ id }) => "id=" + id).join("&");
   const { data: products, loading, error } = useFetch<Product[]>(url);
 
   function renderItem(itemInCart: Item, product: Product) {

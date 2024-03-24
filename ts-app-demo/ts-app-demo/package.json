@@ -12,6 +12,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@faker-js/faker": "^8.4.1",
     "concurrently": "^8.2.2",
     "cross-env": "^7.0.3",
     "immer": "^10.0.4",

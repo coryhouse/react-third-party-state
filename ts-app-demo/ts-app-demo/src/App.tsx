@@ -5,6 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import Detail from "./Detail";
 import Cart from "./Cart";
 import Checkout from "./Checkout";
+import Faker from "./Faker.tsx";
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
             <Route path="/:category/:id" element={<Detail />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/faker" element={<Faker />} />
           </Routes>
         </main>
       </div>
