@@ -18,7 +18,7 @@ export default function Products() {
       const response = await fetch(
         import.meta.env.VITE_APP_API_BASE_URL + "products?category=" + category
       );
-      if (response.ok) return response.json();
+      if (response.ok) return response.json() as unknown as Product[];
       throw response;
     },
   });
@@ -36,12 +36,13 @@ export default function Products() {
   }
 
   const filteredProducts = size
-    ? products.filter((p) => p.skus.find((s) => s.size === parseInt(size)))
+    ? products?.filter((p) => p.skus.find((s) => s.size === parseInt(size)))
     : products;
 
   if (isLoading) return <Spinner />;
   if (error) throw error;
-  if (products.length === 0) return <PageNotFound />;
+  if (!filteredProducts || filteredProducts.length === 0)
+    return <PageNotFound />;
 
   return (
     <>
