@@ -2,27 +2,26 @@ import { useState, useRef, useEffect } from "react";
 
 const baseUrl = import.meta.env.VITE_APP_API_BASE_URL;
 
-export default function useFetch(url: string) {
+export default function useFetch<T>(url: string) {
   const isMounted = useRef(false);
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
+  const [data, setData] = useState<T | null>(null);
+  const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    isMounted.current = true;
     async function init() {
       try {
         const response = await fetch(baseUrl + url);
         if (response.ok) {
           const json = await response.json();
-          if (isMounted.current) setData(json);
+          setData(json);
         } else {
           throw response;
         }
       } catch (e) {
-        if (isMounted.current) setError(e);
+        setError(e as Error);
       } finally {
-        if (isMounted.current) setLoading(false);
+        setLoading(false);
       }
     }
     init();

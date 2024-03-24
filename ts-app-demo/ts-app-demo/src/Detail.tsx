@@ -1,16 +1,32 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import useFetch from "./services/useFetch";
 import Spinner from "./Spinner";
 import PageNotFound from "./PageNotFound";
 import { useCart } from "./cartContext";
 
+type Product = {
+  id: number;
+  sku: string;
+  name: string;
+  image: string;
+  description: string;
+  price: number;
+  category: string;
+  skus: Sku[];
+};
+
+type Sku = {
+  sku: string;
+  size: string;
+};
+
 export default function Detail() {
   const { dispatch } = useCart();
   const { id } = useParams();
   const navigate = useNavigate();
   const [sku, setSku] = useState("");
-  const { data: product, loading, error } = useFetch(`products/${id}`);
+  const { data: product, loading, error } = useFetch<Product>(`products/${id}`);
 
   if (loading) return <Spinner />;
   if (!product) return <PageNotFound />;
