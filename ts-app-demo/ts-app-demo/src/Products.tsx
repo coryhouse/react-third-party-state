@@ -10,11 +10,7 @@ export default function Products() {
   const [size, setSize] = useState("");
   const { category } = useParams();
 
-  const {
-    data: products,
-    loading,
-    error,
-  } = useFetch<Product[]>("products?category=" + category);
+  const { data: products, loading, error } = useFetch<Product[]>("products");
 
   function renderProduct(p: Product) {
     return (
