@@ -33,8 +33,3 @@ export default function useFetch<T>(url: string) {
 
   return { data, error, loading };
 }
-
-export function Fetch({ url, children }) {
-  const { data, loading, error } = useFetch(url);
-  return children(data, loading, error);
-}

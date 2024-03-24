@@ -1,3 +1,5 @@
+import { ShippingAddress } from "../types/types";
+
 const baseUrl = import.meta.env.VITE_APP_API_BASE_URL;
 
 export async function getShippingAddress(userId: number) {
@@ -6,11 +8,6 @@ export async function getShippingAddress(userId: number) {
     throw response;
   });
 }
-
-export type ShippingAddress = {
-  city: string;
-  country: string;
-};
 
 export async function saveShippingAddress(address: ShippingAddress) {
   return fetch(baseUrl + "shippingAddress", {

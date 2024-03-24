@@ -4,7 +4,7 @@ import useFetch from "./services/useFetch";
 import { useParams } from "react-router-dom";
 import PageNotFound from "./PageNotFound";
 import { Link } from "react-router-dom";
-import { Product } from "./Detail";
+import { Product } from "./types/types";
 
 export default function Products() {
   const [size, setSize] = useState("");

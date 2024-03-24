@@ -5,10 +5,11 @@
    handled in an immutable friendly way. 👍
 */
 import { produce } from "immer";
+import { CartAction, CartItem } from "./types/types";
 
-export default function cartReducer(cart, action) {
+export default function cartReducer(cart: CartItem[], action: CartAction) {
   switch (action.type) {
-    case "add":
+    case "add": {
       const { id, sku } = action;
       const itemInCart = cart.find((i) => i.sku === sku);
       return produce(cart, (draft) => {
@@ -19,7 +20,7 @@ export default function cartReducer(cart, action) {
           draft.push({ id, sku, quantity: 1 });
         }
       });
-
+    }
     case "updateQuantity": {
       const { quantity, sku } = action;
 
