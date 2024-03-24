@@ -1,5 +1,8 @@
-import React, { useState } from "react";
-import { saveShippingAddress } from "./services/shippingService";
+import { useState } from "react";
+import {
+  ShippingAddress,
+  saveShippingAddress,
+} from "./services/shippingService";
 import { useCart } from "./cartContext";
 
 const STATUS = {
@@ -10,23 +13,35 @@ const STATUS = {
 };
 
 // Declaring outside component to avoid recreation on each render
-const emptyAddress = {
+const emptyAddress: ShippingAddress = {
   city: "",
   country: "",
+};
+
+const initialTouched = {
+  city: false,
+  country: false,
+};
+
+type Errors = {
+  city?: string;
+  country?: string;
 };
 
 export default function Checkout() {
   const { dispatch } = useCart();
   const [address, setAddress] = useState(emptyAddress);
   const [status, setStatus] = useState(STATUS.IDLE);
-  const [saveError, setSaveError] = useState(null);
-  const [touched, setTouched] = useState({});
+  const [saveError, setSaveError] = useState<Error | null>(null);
+  const [touched, setTouched] = useState(initialTouched);
 
   // Derived state
   const errors = getErrors(address);
   const isValid = Object.keys(errors).length === 0;
 
-  function handleChange(e) {
+  function handleChange(
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) {
     e.persist(); // persist the event
     setAddress((curAddress) => {
       return {
@@ -36,14 +51,16 @@ export default function Checkout() {
     });
   }
 
-  function handleBlur(event) {
+  function handleBlur(
+    event: React.FocusEvent<HTMLInputElement | HTMLSelectElement>
+  ) {
     event.persist();
     setTouched((cur) => {
       return { ...cur, [event.target.id]: true };
     });
   }
 
-  async function handleSubmit(event) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setStatus(STATUS.SUBMITTING);
     if (isValid) {
@@ -52,18 +69,18 @@ export default function Checkout() {
         dispatch({ type: "empty" });
         setStatus(STATUS.COMPLETED);
       } catch (e) {
-        setSaveError(e);
+        setSaveError(e as Error);
       }
     } else {
       setStatus(STATUS.SUBMITTED);
     }
   }
 
-  function getErrors(address) {
-    const result = {};
-    if (!address.city) result.city = "City is required";
-    if (!address.country) result.country = "Country is required";
-    return result;
+  function getErrors(address: ShippingAddress) {
+    const errors: Errors = {};
+    if (!address.city) errors.city = "City is required";
+    if (!address.country) errors.country = "Country is required";
+    return errors;
   }
 
   if (saveError) throw saveError;
@@ -79,7 +96,7 @@ export default function Checkout() {
           <p>Please fix the following errors:</p>
           <ul>
             {Object.keys(errors).map((key) => {
-              return <li key={key}>{errors[key]}</li>;
+              return <li key={key}>{errors[key as keyof typeof errors]}</li>;
             })}
           </ul>
         </div>
