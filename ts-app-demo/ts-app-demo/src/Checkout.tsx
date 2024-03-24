@@ -3,7 +3,7 @@ import {
   ShippingAddress,
   saveShippingAddress,
 } from "./services/shippingService";
-import { useCart } from "./cartContext";
+import { useStore } from "./store";
 
 const STATUS = {
   IDLE: "IDLE",
@@ -29,7 +29,7 @@ type Errors = {
 };
 
 export default function Checkout() {
-  const { dispatch } = useCart();
+  const { empty } = useStore();
   const [address, setAddress] = useState(emptyAddress);
   const [status, setStatus] = useState(STATUS.IDLE);
   const [saveError, setSaveError] = useState<Error | null>(null);
@@ -66,7 +66,7 @@ export default function Checkout() {
     if (isValid) {
       try {
         await saveShippingAddress(address);
-        dispatch({ type: "empty" });
+        empty();
         setStatus(STATUS.COMPLETED);
       } catch (e) {
         setSaveError(e as Error);
