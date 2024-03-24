@@ -16,7 +16,13 @@ export default function Header() {
             <NavLink to="/shoes">Shoes</NavLink>
           </li>
           <li>
-            <NavLink to="/cart">Cart ({cart.length})</NavLink>
+            <NavLink to="/cart">
+              Cart (
+              {cart.reduce((prev, acc) => {
+                return prev + acc.quantity;
+              }, 0)}
+              )
+            </NavLink>
           </li>
         </ul>
       </nav>
