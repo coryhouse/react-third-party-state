@@ -1,16 +1,16 @@
 import Spinner from "./Spinner";
 import { useNavigate } from "react-router-dom";
-import { Item, useCart } from "./cartContext";
-import { Product } from "./Detail";
 import useFetch from "./services/useFetch";
+import { useStore } from "./store";
+import { CartItem, Product } from "./types/types";
 
 export default function Cart() {
-  const { items, dispatch } = useCart();
+  const { items, updateQuantity } = useStore();
   const navigate = useNavigate();
   const url = "products?" + items.map(({ id }) => "id=" + id).join("&");
   const { data: products, loading, error } = useFetch<Product[]>(url);
 
-  function renderItem(itemInCart: Item, product: Product) {
+  function renderItem(itemInCart: CartItem, product: Product) {
     const { sku, quantity } = itemInCart;
     const { name, image, skus, price } = product;
     const matchingSku = skus.find((s) => s.sku === sku);
@@ -27,13 +27,7 @@ export default function Cart() {
           <p>
             <select
               aria-label={`Select quantity for ${name} size ${size}`}
-              onChange={(e) =>
-                dispatch({
-                  type: "updateQuantity",
-                  sku,
-                  quantity: parseInt(e.target.value),
-                })
-              }
+              onChange={(e) => updateQuantity(sku, parseInt(e.target.value))}
               value={quantity}
             >
               <option value="0">Remove</option>
