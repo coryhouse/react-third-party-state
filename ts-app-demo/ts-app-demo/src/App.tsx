@@ -1,5 +1,4 @@
 import "./App.css";
-import Footer from "./Footer";
 import Header from "./Header";
 import Products from "./Products.tsx";
 import { Routes, Route } from "react-router-dom";
@@ -22,7 +21,6 @@ export default function App() {
           </Routes>
         </main>
       </div>
-      <Footer />
     </>
   );
 }
