@@ -1,8 +1,8 @@
 import Spinner from "./Spinner";
 import { useNavigate } from "react-router-dom";
-import { Item, useCart } from "./cartContext";
-import { Product } from "./Detail";
+import { useCart } from "./cartContext";
 import useFetch from "./services/useFetch";
+import { CartItem, Product } from "./types/types";
 
 export default function Cart() {
   const { items, dispatch } = useCart();
@@ -10,7 +10,7 @@ export default function Cart() {
   const url = "products?" + items.map(({ id }) => "id=" + id).join("&");
   const { data: products, loading, error } = useFetch<Product[]>(url);
 
-  function renderItem(itemInCart: Item, product: Product) {
+  function renderItem(itemInCart: CartItem, product: Product) {
     const { sku, quantity } = itemInCart;
     const { name, image, skus, price } = product;
     const matchingSku = skus.find((s) => s.sku === sku);

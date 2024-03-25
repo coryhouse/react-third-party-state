@@ -15,7 +15,9 @@ export default function cartReducer(cart: CartItem[], action: CartAction) {
       return produce(cart, (draft) => {
         if (itemInCart) {
           const itemIndex = draft.findIndex((i) => i.sku === sku);
-          draft[itemIndex].quantity++;
+          const item = draft[itemIndex];
+          if (!item) throw new Error("Item not found in cart");
+          item.quantity++;
         } else {
           draft.push({ id, sku, quantity: 1 });
         }
@@ -26,10 +28,12 @@ export default function cartReducer(cart: CartItem[], action: CartAction) {
 
       return produce(cart, (draft) => {
         const index = cart.findIndex((i) => i.sku === sku);
+        const item = draft[index];
+        if (!item) throw new Error("Item not found in cart");
         if (quantity === 0) {
           delete draft[index];
         } else {
-          draft[index].quantity = quantity;
+          item.quantity = quantity;
         }
       });
     }
