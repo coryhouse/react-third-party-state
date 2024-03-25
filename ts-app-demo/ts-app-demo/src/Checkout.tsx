@@ -1,9 +1,7 @@
 import { useState } from "react";
-import {
-  ShippingAddress,
-  saveShippingAddress,
-} from "./services/shippingService";
 import { useStore } from "./store";
+import { saveShippingAddress } from "./services/shippingService";
+import { ShippingAddress } from "./types/types";
 
 const STATUS = {
   IDLE: "IDLE",

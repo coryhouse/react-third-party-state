@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { Product } from "./Detail";
+import { Product } from "./types/types";
 
 export default function Faker() {
   function generateFakeData() {
