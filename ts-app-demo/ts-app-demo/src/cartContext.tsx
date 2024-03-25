@@ -1,6 +1,6 @@
 import React, { useReducer, useEffect, useContext } from "react";
-import cartReducer, { CartAction } from "./cartReducer";
-import { CartItem } from "./types/types";
+import cartReducer from "./cartReducer";
+import { CartAction, CartItem } from "./types/types";
 
 export const CartContext = React.createContext<CartContextType | null>(null);
 
