@@ -3,11 +3,12 @@ import { useParams, useNavigate } from "react-router-dom";
 import useFetch from "./services/useFetch";
 import Spinner from "./Spinner";
 import PageNotFound from "./PageNotFound";
-import { useCart } from "./cartContext";
+import { cartAtom } from "./atoms/cartAtom";
+import { useAtom } from "jotai";
 import { Product } from "./types/types";
 
 export default function Detail() {
-  const { dispatch } = useCart();
+  const [, setItems] = useAtom(cartAtom);
   const { id } = useParams();
   const navigate = useNavigate();
   const [sku, setSku] = useState("");
@@ -37,7 +38,7 @@ export default function Detail() {
           disabled={!sku}
           className="btn btn-primary"
           onClick={() => {
-            dispatch({ type: "add", id: parseInt(id), sku });
+            setItems((prev) => [...prev, { id: product.id, sku, quantity: 1 }]);
             navigate("/cart");
           }}
         >
