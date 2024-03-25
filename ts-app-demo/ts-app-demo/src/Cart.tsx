@@ -1,11 +1,12 @@
 import Spinner from "./Spinner";
 import { useNavigate } from "react-router-dom";
-import { useCart } from "./cartContext";
 import useFetch from "./services/useFetch";
 import { CartItem, Product } from "./types/types";
+import { useSnapshot } from "valtio";
+import { cartState, updateQuantity } from "./cartState";
 
 export default function Cart() {
-  const { items, dispatch } = useCart();
+  const { items } = useSnapshot(cartState);
   const navigate = useNavigate();
   const url = "products?" + items.map(({ id }) => "id=" + id).join("&");
   const { data: products, loading, error } = useFetch<Product[]>(url);
@@ -27,13 +28,7 @@ export default function Cart() {
           <p>
             <select
               aria-label={`Select quantity for ${name} size ${size}`}
-              onChange={(e) =>
-                dispatch({
-                  type: "updateQuantity",
-                  sku,
-                  quantity: parseInt(e.target.value),
-                })
-              }
+              onChange={(e) => updateQuantity(sku, parseInt(e.target.value))}
               value={quantity}
             >
               <option value="0">Remove</option>

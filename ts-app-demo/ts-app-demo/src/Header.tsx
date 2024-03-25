@@ -1,8 +1,9 @@
 import { Link, NavLink } from "react-router-dom";
-import { useCart } from "./cartContext";
+import { useSnapshot } from "valtio";
+import { cartState } from "./cartState";
 
 export default function Header() {
-  const { items: cart } = useCart();
+  const { items } = useSnapshot(cartState);
   return (
     <header>
       <nav>
@@ -18,7 +19,7 @@ export default function Header() {
           <li>
             <NavLink to="/cart">
               Cart (
-              {cart.reduce((prev, acc) => {
+              {items.reduce((prev, acc) => {
                 return prev + acc.quantity;
               }, 0)}
               )
