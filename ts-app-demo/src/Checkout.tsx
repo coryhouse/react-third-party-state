@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useStore } from "./store";
+import { useStore } from "./cartStore";
 import { saveShippingAddress } from "./services/shippingService";
 import { ShippingAddress } from "./types/types";
 

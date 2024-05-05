@@ -4,7 +4,7 @@ import useFetch from "./services/useFetch";
 import Spinner from "./Spinner";
 import PageNotFound from "./PageNotFound";
 import { Product } from "./types/types";
-import { useStore } from "./store";
+import { useStore } from "./cartStore";
 
 export default function Detail() {
   const { add } = useStore();
