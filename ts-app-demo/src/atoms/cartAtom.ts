@@ -1,19 +1,23 @@
-import { atom } from "jotai";
+import { atomWithStorage } from "jotai/utils";
 
-export interface Item {
+export interface CartItem {
   id: number;
   quantity: number;
   sku: string;
 }
 
-let initialCart: Item[] = [];
-try {
-  const cart = localStorage.getItem("cart");
-  const parsedCart: any[] = cart ? JSON.parse(cart) : [];
-  initialCart = parsedCart.map((item) => ({ ...item, id: parseInt(item.id) }));
-} catch {
-  console.error("The cart could not be parsed into JSON.");
-  initialCart = [];
-}
+let initialCart: CartItem[] = [];
 
-export const cartAtom = atom(initialCart);
+// Can use this first, then show how to use atomWithStorage
+// try {
+//   const cart = localStorage.getItem("cart");
+//   const parsedCart: any[] = cart ? JSON.parse(cart) : [];
+//   initialCart = parsedCart.map((item) => ({ ...item, id: parseInt(item.id) }));
+// } catch {
+//   console.error("The cart could not be parsed into JSON.");
+//   initialCart = [];
+// }
+
+// export const cartAtom = atom(initialCart);
+
+export const cartAtom = atomWithStorage("cart", initialCart);
