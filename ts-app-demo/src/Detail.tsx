@@ -3,8 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import useFetch from "./services/useFetch";
 import Spinner from "./Spinner";
 import PageNotFound from "./PageNotFound";
-import { Product } from "./types/types";
 import { addToCart } from "./cartState";
+import { Product } from "./types/types";
 
 export default function Detail() {
   const { id } = useParams();
