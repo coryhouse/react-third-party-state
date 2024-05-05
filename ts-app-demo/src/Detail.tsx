@@ -41,6 +41,7 @@ export default function Detail() {
           disabled={!sku}
           className="btn btn-primary"
           onClick={() => {
+            if (!sku) return alert("Select size.");
             setCart((cart) => {
               const itemInCart = cart.find((i) => i.sku === sku);
               if (itemInCart) {
