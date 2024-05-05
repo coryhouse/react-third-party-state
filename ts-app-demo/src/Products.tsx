@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import Spinner from "./Spinner";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import PageNotFound from "./PageNotFound";
-import { Link } from "react-router-dom";
 import { Product } from "./types/types";
 
 export default function Products() {
