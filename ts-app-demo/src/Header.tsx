@@ -3,7 +3,7 @@ import { useSnapshot } from "valtio";
 import { cartState } from "./cartState";
 
 export default function Header() {
-  const { items } = useSnapshot(cartState);
+  const { cart } = useSnapshot(cartState);
   return (
     <header>
       <nav>
@@ -19,7 +19,7 @@ export default function Header() {
           <li>
             <NavLink to="/cart">
               Cart (
-              {items.reduce((prev, acc) => {
+              {cart.reduce((prev, acc) => {
                 return prev + acc.quantity;
               }, 0)}
               )

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { saveShippingAddress } from "./services/shippingService";
 import { ShippingAddress } from "./types/types";
-import { empty } from "./cartState";
+import { emptyCart } from "./cartState";
 
 const STATUS = {
   IDLE: "IDLE",
@@ -63,7 +63,7 @@ export default function Checkout() {
     if (isValid) {
       try {
         await saveShippingAddress(address);
-        empty();
+        emptyCart();
         setStatus(STATUS.COMPLETED);
       } catch (e) {
         setSaveError(e as Error);
