@@ -5,7 +5,7 @@ import { useCartStore } from "./cartStore";
 import { CartItem, Product } from "./types/types";
 
 export default function Cart() {
-  const { cart, updateQuantity } = useCartStore();
+  const { cart, updateCartQuantity } = useCartStore();
   const navigate = useNavigate();
   const url = "products?" + cart.map(({ id }) => "id=" + id).join("&");
   const { data: products, loading, error } = useFetch<Product[]>(url);
@@ -27,7 +27,9 @@ export default function Cart() {
           <p>
             <select
               aria-label={`Select quantity for ${name} size ${size}`}
-              onChange={(e) => updateQuantity(sku, parseInt(e.target.value))}
+              onChange={(e) =>
+                updateCartQuantity(sku, parseInt(e.target.value))
+              }
               value={quantity}
             >
               <option value="0">Remove</option>

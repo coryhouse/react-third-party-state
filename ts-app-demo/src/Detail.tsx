@@ -7,7 +7,7 @@ import { Product } from "./types/types";
 import { useCartStore } from "./cartStore";
 
 export default function Detail() {
-  const { add } = useCartStore();
+  const { addToCart } = useCartStore();
   const { id } = useParams();
   const navigate = useNavigate();
   const [sku, setSku] = useState("");
@@ -37,7 +37,7 @@ export default function Detail() {
           disabled={!sku}
           className="btn btn-primary"
           onClick={() => {
-            add(parseInt(id), sku);
+            addToCart(parseInt(id), sku);
             navigate("/cart");
           }}
         >
