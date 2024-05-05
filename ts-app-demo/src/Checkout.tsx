@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useCartStore } from "./cartStore";
 import { saveShippingAddress } from "./services/shippingService";
+import { useCartStore } from "./cartStore";
 import { ShippingAddress } from "./types/types";
 
 const STATUS = {
