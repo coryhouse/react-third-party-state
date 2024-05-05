@@ -7,7 +7,7 @@ import { useCart } from "./cartContext";
 import { Product } from "./types/types";
 
 export default function Detail() {
-  const { dispatch } = useCart();
+  const { setCart } = useCart();
   const { id } = useParams();
   const navigate = useNavigate();
   const [sku, setSku] = useState("");
@@ -37,7 +37,19 @@ export default function Detail() {
           disabled={!sku}
           className="btn btn-primary"
           onClick={() => {
-            dispatch({ type: "add", id: parseInt(id), sku });
+            if (!sku) return alert("Select size.");
+            setCart((cart) => {
+              const itemInCart = cart.find((i) => i.sku === sku);
+              if (itemInCart) {
+                // Return new array with the matching item replaced
+                return cart.map((i) =>
+                  i.sku === sku ? { ...i, quantity: i.quantity + 1 } : i
+                );
+              } else {
+                // Return new array with the new item appended
+                return [...cart, { id: parseInt(id), sku, quantity: 1 }];
+              }
+            });
             navigate("/cart");
           }}
         >
