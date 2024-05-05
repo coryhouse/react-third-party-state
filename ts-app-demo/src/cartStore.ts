@@ -22,17 +22,13 @@ export const useCartStore = create<Store>((set) => ({
   addToCart: (id: number, sku: string) => {
     set((state) => {
       const itemInCart = state.cart.find((i) => i.sku === sku);
-      if (itemInCart) {
-        return {
-          cart: state.cart.map((i) =>
-            i.sku === sku ? { ...i, quantity: i.quantity + 1 } : i
-          ),
-        };
-      } else {
-        return {
-          cart: [...state.cart, { id, sku, quantity: 1 }],
-        };
-      }
+      return {
+        cart: itemInCart
+          ? state.cart.map((i) =>
+              i.sku === sku ? { ...i, quantity: i.quantity + 1 } : i
+            )
+          : [...state.cart, { id, sku, quantity: 1 }],
+      };
     });
   },
 }));
