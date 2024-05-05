@@ -4,10 +4,10 @@ import useFetch from "./services/useFetch";
 import Spinner from "./Spinner";
 import PageNotFound from "./PageNotFound";
 import { Product } from "./types/types";
-import { useStore } from "./cartStore";
+import { useCartStore } from "./cartStore";
 
 export default function Detail() {
-  const { add } = useStore();
+  const { add } = useCartStore();
   const { id } = useParams();
   const navigate = useNavigate();
   const [sku, setSku] = useState("");

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useStore } from "./cartStore";
+import { useCartStore } from "./cartStore";
 import { saveShippingAddress } from "./services/shippingService";
 import { ShippingAddress } from "./types/types";
 
@@ -27,7 +27,7 @@ type Errors = {
 };
 
 export default function Checkout() {
-  const { empty } = useStore();
+  const { empty } = useCartStore();
   const [address, setAddress] = useState(emptyAddress);
   const [status, setStatus] = useState(STATUS.IDLE);
   const [saveError, setSaveError] = useState<Error | null>(null);
