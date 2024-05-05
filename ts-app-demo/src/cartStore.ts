@@ -12,8 +12,11 @@ export const useCartStore = create<Store>((set) => ({
   cart: [],
   emptyCart: () => set({ cart: [] }),
   updateCartQuantity: (sku: string, quantity: number) => {
-    set((state) => ({
-      cart: state.cart.map((i) => (i.sku === sku ? { ...i, quantity } : i)),
+    set(({ cart }) => ({
+      cart:
+        quantity === 0
+          ? cart.filter((i) => i.sku !== sku)
+          : cart.map((i) => (i.sku === sku ? { ...i, quantity } : i)),
     }));
   },
   addToCart: (id: number, sku: string) => {
