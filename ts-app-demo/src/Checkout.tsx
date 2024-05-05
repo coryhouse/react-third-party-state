@@ -27,7 +27,7 @@ type Errors = {
 };
 
 export default function Checkout() {
-  const { dispatch } = useCart();
+  const { setCart } = useCart();
   const [address, setAddress] = useState(emptyAddress);
   const [status, setStatus] = useState(STATUS.IDLE);
   const [saveError, setSaveError] = useState<Error | null>(null);
@@ -64,7 +64,7 @@ export default function Checkout() {
     if (isValid) {
       try {
         await saveShippingAddress(address);
-        dispatch({ type: "empty" });
+        setCart([]);
         setStatus(STATUS.COMPLETED);
       } catch (e) {
         setSaveError(e as Error);

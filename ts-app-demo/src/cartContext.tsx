@@ -1,12 +1,11 @@
-import React, { useReducer, useEffect, useContext } from "react";
-import cartReducer from "./cartReducer";
-import { CartAction, CartItem } from "./types/types";
+import React, { useEffect, useContext, useState } from "react";
+import { CartItem } from "./types/types";
 
 export const CartContext = React.createContext<CartContextType | null>(null);
 
 type CartContextType = {
   items: CartItem[];
-  dispatch: React.Dispatch<CartAction>;
+  setCart: React.Dispatch<React.SetStateAction<CartItem[]>>;
 };
 
 let initialCart: CartItem[] = [];
@@ -24,11 +23,11 @@ type CartProviderProps = {
 };
 
 export function CartProvider(props: CartProviderProps) {
-  const [cart, dispatch] = useReducer(cartReducer, initialCart);
+  const [cart, setCart] = useState(initialCart);
   useEffect(() => localStorage.setItem("cart", JSON.stringify(cart)), [cart]);
   const contextValue = {
     items: cart,
-    dispatch,
+    setCart,
   };
   return (
     <CartContext.Provider value={contextValue}>

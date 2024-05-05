@@ -5,7 +5,7 @@ import useFetch from "./services/useFetch";
 import { CartItem, Product } from "./types/types";
 
 export default function Cart() {
-  const { items, dispatch } = useCart();
+  const { items, setCart } = useCart();
   const navigate = useNavigate();
   const url = "products?" + items.map(({ id }) => "id=" + id).join("&");
   const { data: products, loading, error } = useFetch<Product[]>(url);
@@ -27,13 +27,14 @@ export default function Cart() {
           <p>
             <select
               aria-label={`Select quantity for ${name} size ${size}`}
-              onChange={(e) =>
-                dispatch({
-                  type: "updateQuantity",
-                  sku,
-                  quantity: parseInt(e.target.value),
-                })
-              }
+              onChange={(e) => {
+                const quantity = parseInt(e.target.value);
+                setCart(
+                  quantity === 0
+                    ? items.filter((i) => i.sku !== sku)
+                    : items.map((i) => (i.sku === sku ? { ...i, quantity } : i))
+                );
+              }}
               value={quantity}
             >
               <option value="0">Remove</option>
