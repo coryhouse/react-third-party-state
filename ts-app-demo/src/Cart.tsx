@@ -5,9 +5,9 @@ import useFetch from "./services/useFetch";
 import { CartItem, Product } from "./types/types";
 
 export default function Cart() {
-  const { items, setCart } = useCart();
+  const { cart, setCart } = useCart();
   const navigate = useNavigate();
-  const url = "products?" + items.map(({ id }) => "id=" + id).join("&");
+  const url = "products?" + cart.map(({ id }) => "id=" + id).join("&");
   const { data: products, loading, error } = useFetch<Product[]>(url);
 
   function renderItem(itemInCart: CartItem, product: Product) {
@@ -31,8 +31,8 @@ export default function Cart() {
                 const quantity = parseInt(e.target.value);
                 setCart(
                   quantity === 0
-                    ? items.filter((i) => i.sku !== sku)
-                    : items.map((i) => (i.sku === sku ? { ...i, quantity } : i))
+                    ? cart.filter((i) => i.sku !== sku)
+                    : cart.map((i) => (i.sku === sku ? { ...i, quantity } : i))
                 );
               }}
               value={quantity}
@@ -53,10 +53,7 @@ export default function Cart() {
   if (loading || !products) return <Spinner />;
   if (error) throw error;
 
-  const numItemsInCart = items.reduce(
-    (total, item) => total + item.quantity,
-    0
-  );
+  const numItemsInCart = cart.reduce((total, item) => total + item.quantity, 0);
 
   return (
     <section id="cart">
@@ -66,13 +63,13 @@ export default function Cart() {
           : `${numItemsInCart} Item${numItemsInCart > 1 ? "s" : ""} in My Cart`}
       </h1>
       <ul>
-        {items.map((cartItem) => {
+        {cart.map((cartItem) => {
           const product = products.find((p) => p.id === cartItem.id);
           if (!product) throw new Error("Product not found");
           return renderItem(cartItem, product);
         })}
       </ul>
-      {items.length > 0 && (
+      {cart.length > 0 && (
         <button
           className="btn btn-primary"
           onClick={() => navigate("/checkout")}

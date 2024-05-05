@@ -4,7 +4,7 @@ import { CartItem } from "./types/types";
 export const CartContext = React.createContext<CartContextType | null>(null);
 
 type CartContextType = {
-  items: CartItem[];
+  cart: CartItem[];
   setCart: React.Dispatch<React.SetStateAction<CartItem[]>>;
 };
 
@@ -26,7 +26,7 @@ export function CartProvider(props: CartProviderProps) {
   const [cart, setCart] = useState(initialCart);
   useEffect(() => localStorage.setItem("cart", JSON.stringify(cart)), [cart]);
   const contextValue = {
-    items: cart,
+    cart,
     setCart,
   };
   return (
