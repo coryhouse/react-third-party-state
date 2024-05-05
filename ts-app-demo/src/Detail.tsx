@@ -40,15 +40,11 @@ export default function Detail() {
             if (!sku) return alert("Select size.");
             setCart((cart) => {
               const itemInCart = cart.find((i) => i.sku === sku);
-              if (itemInCart) {
-                // Return new array with the matching item replaced
-                return cart.map((i) =>
-                  i.sku === sku ? { ...i, quantity: i.quantity + 1 } : i
-                );
-              } else {
-                // Return new array with the new item appended
-                return [...cart, { id: parseInt(id), sku, quantity: 1 }];
-              }
+              return itemInCart
+                ? cart.map((i) =>
+                    i.sku === sku ? { ...i, quantity: i.quantity + 1 } : i
+                  )
+                : [...cart, { id: parseInt(id), sku, quantity: 1 }];
             });
             navigate("/cart");
           }}
