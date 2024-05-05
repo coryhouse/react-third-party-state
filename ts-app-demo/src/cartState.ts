@@ -1,24 +1,38 @@
-import { proxy } from "valtio";
+import { proxy, subscribe } from "valtio";
 import { CartItem } from "./types/types";
 
 type CartState = {
   cart: CartItem[];
 };
 
-export const cartState = proxy<CartState>({
-  cart: [],
+const initialState: CartState = localStorage.getItem("cart")
+  ? JSON.parse(localStorage.getItem("cart") ?? "")
+  : { cart: [] };
+
+export const cartState = proxy<CartState>(initialState);
+
+// Save cart updates to localStorage
+subscribe(cartState, () => {
+  localStorage.setItem("cart", JSON.stringify(cartState));
 });
 
-export const addToCart = (id: number, sku: string) => {
+// Utility functions below here
+// ------------------------------
+export function addToCart(id: number, sku: string) {
   cartState.cart.push({ id, sku, quantity: 1 });
-};
+}
 
-export const updateQuantity = (sku: string, quantity: number) => {
-  const item = cartState.cart.find((i) => i.sku === sku);
+export function updateQuantity(sku: string, quantity: number) {
+  const itemIndex = cartState.cart.findIndex((i) => i.sku === sku);
+  const item = cartState.cart[itemIndex];
   if (!item) throw new Error("Sku not found in cart");
-  item.quantity = quantity; // Can simply mutate. The proxy will detect the change and trigger a render.
-};
+  if (quantity === 0) {
+    cartState.cart.splice(itemIndex, 1); // Remove item from cart by index
+  } else {
+    item.quantity = quantity; // Can simply mutate. The proxy will detect the change and trigger a render.
+  }
+}
 
-export const emptyCart = () => {
+export function emptyCart() {
   cartState.cart = [];
-};
+}
