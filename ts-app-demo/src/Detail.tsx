@@ -37,6 +37,7 @@ export default function Detail() {
           disabled={!sku}
           className="btn btn-primary"
           onClick={() => {
+            if (!sku) return alert("Select size.");
             addToCart(parseInt(id), sku);
             navigate("/cart");
           }}
