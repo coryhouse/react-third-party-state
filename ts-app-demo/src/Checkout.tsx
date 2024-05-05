@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { saveShippingAddress } from "./services/shippingService";
-import { ShippingAddress } from "./types/types";
 import { emptyCart } from "./cartState";
+import { ShippingAddress } from "./types/types";
 
 const STATUS = {
   IDLE: "IDLE",
