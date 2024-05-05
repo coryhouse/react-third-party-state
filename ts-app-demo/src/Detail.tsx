@@ -4,11 +4,14 @@ import useFetch from "./services/useFetch";
 import Spinner from "./Spinner";
 import PageNotFound from "./PageNotFound";
 import { cartAtom } from "./atoms/cartAtom";
-import { useAtom } from "jotai";
+import { useSetAtom } from "jotai";
 import { Product } from "./types/types";
 
 export default function Detail() {
-  const [, setItems] = useAtom(cartAtom);
+  // Note that with useAtom this would trigger a render even though we only need the setter.
+  // To test this, comment out the navigate call on line 45.
+  const setItems = useSetAtom(cartAtom);
+  // const [, setItems] = useAtom(cartAtom);
   const { id } = useParams();
   const navigate = useNavigate();
   const [sku, setSku] = useState("");
