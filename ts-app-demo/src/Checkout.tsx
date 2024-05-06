@@ -1,7 +1,7 @@
 import { useState } from "react";
+import { saveShippingAddress } from "./services/shippingService";
 import { cartAtom } from "./atoms/cartAtom";
 import { useSetAtom } from "jotai";
-import { saveShippingAddress } from "./services/shippingService";
 import { ShippingAddress } from "./types/types";
 
 const STATUS = {
