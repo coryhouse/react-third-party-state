@@ -2,28 +2,15 @@ import Spinner from "./Spinner";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "./cartContext";
 import { CartItem, Product } from "./types/types";
-import { useQuery } from "@tanstack/react-query";
+import { useGetProductsById } from "./queries/productQueries";
 
 export default function Cart() {
   const { cart, setCart } = useCart();
   const navigate = useNavigate();
 
-  const {
-    isLoading,
-    data: products,
-    error,
-  } = useQuery({
-    queryKey: ["products", cart],
-    queryFn: async () => {
-      const response = await fetch(
-        import.meta.env.VITE_APP_API_BASE_URL +
-          "products?" +
-          cart.map(({ id }) => "id=" + id).join("&")
-      );
-      if (response.ok) return response.json() as unknown as Product[];
-      throw response;
-    },
-  });
+  const { isLoading, data: products } = useGetProductsById(
+    cart.map((i) => i.id)
+  );
 
   function renderItem(itemInCart: CartItem, product: Product) {
     const { sku, quantity } = itemInCart;
@@ -66,7 +53,6 @@ export default function Cart() {
   }
 
   if (isLoading || !products) return <Spinner />;
-  if (error) throw error;
 
   const numItemsInCart = cart.reduce((total, item) => total + item.quantity, 0);
 

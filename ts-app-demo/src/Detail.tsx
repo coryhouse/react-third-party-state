@@ -3,8 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Spinner from "./Spinner";
 import PageNotFound from "./PageNotFound";
 import { useCart } from "./cartContext";
-import { Product } from "./types/types";
-import { useQuery } from "@tanstack/react-query";
+import { useGetProductById } from "./queries/productQueries";
 
 export default function Detail() {
   const { setCart } = useCart();
@@ -12,24 +11,10 @@ export default function Detail() {
   const navigate = useNavigate();
   const [sku, setSku] = useState("");
 
-  const {
-    isLoading,
-    data: product,
-    error,
-  } = useQuery({
-    queryKey: ["product", id],
-    queryFn: async () => {
-      const response = await fetch(
-        import.meta.env.VITE_APP_API_BASE_URL + `products/${id}`
-      );
-      if (response.ok) return response.json() as unknown as Product;
-      throw response;
-    },
-  });
+  const { isLoading, data: product } = useGetProductById(id);
 
   if (isLoading) return <Spinner />;
   if (!product || !id) return <PageNotFound />;
-  if (error) throw error;
 
   return (
     <div id="detail">
