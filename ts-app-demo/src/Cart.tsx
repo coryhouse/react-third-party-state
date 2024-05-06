@@ -1,14 +1,38 @@
 import Spinner from "./Spinner";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "./cartContext";
-import useFetch from "./services/useFetch";
 import { CartItem, Product } from "./types/types";
+import { useEffect, useState } from "react";
 
 export default function Cart() {
-  const { items, dispatch } = useCart();
+  const { cart, setCart } = useCart();
   const navigate = useNavigate();
-  const url = "products?" + items.map(({ id }) => "id=" + id).join("&");
-  const { data: products, loading, error } = useFetch<Product[]>(url);
+
+  const [products, setProducts] = useState<Product[] | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const url =
+          import.meta.env.VITE_APP_API_BASE_URL +
+          "products?" +
+          cart.map(({ id }) => "id=" + id).join("&");
+        const data = await fetch(url);
+        if (!data.ok) {
+          throw new Error(`Product not found: ${data.status}`);
+        }
+        const products = await data.json();
+        setProducts(products);
+      } catch (error) {
+        setError(error as Error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchData();
+  }, []);
 
   function renderItem(itemInCart: CartItem, product: Product) {
     const { sku, quantity } = itemInCart;
@@ -27,13 +51,14 @@ export default function Cart() {
           <p>
             <select
               aria-label={`Select quantity for ${name} size ${size}`}
-              onChange={(e) =>
-                dispatch({
-                  type: "updateQuantity",
-                  sku,
-                  quantity: parseInt(e.target.value),
-                })
-              }
+              onChange={(e) => {
+                const quantity = parseInt(e.target.value);
+                setCart(
+                  quantity === 0
+                    ? cart.filter((i) => i.sku !== sku)
+                    : cart.map((i) => (i.sku === sku ? { ...i, quantity } : i))
+                );
+              }}
               value={quantity}
             >
               <option value="0">Remove</option>
@@ -52,10 +77,7 @@ export default function Cart() {
   if (loading || !products) return <Spinner />;
   if (error) throw error;
 
-  const numItemsInCart = items.reduce(
-    (total, item) => total + item.quantity,
-    0
-  );
+  const numItemsInCart = cart.reduce((total, item) => total + item.quantity, 0);
 
   return (
     <section id="cart">
@@ -65,13 +87,13 @@ export default function Cart() {
           : `${numItemsInCart} Item${numItemsInCart > 1 ? "s" : ""} in My Cart`}
       </h1>
       <ul>
-        {items.map((cartItem) => {
+        {cart.map((cartItem) => {
           const product = products.find((p) => p.id === cartItem.id);
           if (!product) throw new Error("Product not found");
           return renderItem(cartItem, product);
         })}
       </ul>
-      {items.length > 0 && (
+      {cart.length > 0 && (
         <button
           className="btn btn-primary"
           onClick={() => navigate("/checkout")}
