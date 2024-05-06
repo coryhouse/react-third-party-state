@@ -2,26 +2,13 @@ import { useState } from "react";
 import Spinner from "./Spinner";
 import { useParams, Link } from "react-router-dom";
 import PageNotFound from "./PageNotFound";
-import { useQuery } from "@tanstack/react-query";
+import { useGetProductsByCategory } from "./queries/productQueries";
 import { Product } from "./types/types";
 
 export default function Products() {
   const [size, setSize] = useState("");
   const { category } = useParams();
-  const {
-    data: products = [],
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ["products", category],
-    queryFn: async () => {
-      const response = await fetch(
-        import.meta.env.VITE_APP_API_BASE_URL + "products?category=" + category
-      );
-      if (response.ok) return response.json() as unknown as Product[];
-      throw response;
-    },
-  });
+  const { data: products = [], isLoading } = useGetProductsByCategory(category);
 
   function renderProduct(p: Product) {
     return (
@@ -40,7 +27,6 @@ export default function Products() {
     : products;
 
   if (isLoading) return <Spinner />;
-  if (error) throw error;
   if (!filteredProducts || filteredProducts.length === 0)
     return <PageNotFound />;
 
