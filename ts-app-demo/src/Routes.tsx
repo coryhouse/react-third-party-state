@@ -11,6 +11,8 @@ import Cart from "./Cart.tsx";
 import Checkout from "./Checkout.tsx";
 import Faker from "./Faker.tsx";
 import { Layout } from "./Layout.tsx";
+import { DetailFallback } from "./DetailFallback.tsx";
+import { ErrorBoundary } from "react-error-boundary";
 
 export default function App() {
   const router = createBrowserRouter(
@@ -22,7 +24,14 @@ export default function App() {
           element={<Products />}
           errorElement={<h1>Sorry, failed to load products.</h1>}
         />
-        <Route path="/:category/:id" element={<Detail />} />
+        <Route
+          path="/:category/:id"
+          element={
+            <ErrorBoundary FallbackComponent={DetailFallback}>
+              <Detail />
+            </ErrorBoundary>
+          }
+        />
         <Route
           path="/cart"
           element={<Cart />}
