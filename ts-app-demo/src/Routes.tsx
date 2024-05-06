@@ -26,7 +26,7 @@ export default function App() {
         <Route
           path="/cart"
           element={<Cart />}
-          errorElement={<h1>Sorry, an error occurred on cart.</h1>}
+          errorElement={<h1>Sorry, failed to load cart.</h1>}
         />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/faker" element={<Faker />} />
