@@ -1,15 +1,39 @@
 import Spinner from "./Spinner";
 import { useNavigate } from "react-router-dom";
-import useFetch from "./services/useFetch";
 import { useAtom } from "jotai";
 import { cartAtom } from "./atoms/cartAtom";
 import { CartItem, Product } from "./types/types";
+import { useEffect, useState } from "react";
 
 export default function Cart() {
   const [cart, setCart] = useAtom(cartAtom);
   const navigate = useNavigate();
-  const url = "products?" + cart.map(({ id }) => "id=" + id).join("&");
-  const { data: products, loading, error } = useFetch<Product[]>(url);
+
+  const [products, setProducts] = useState<Product[] | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const url =
+          import.meta.env.VITE_APP_API_BASE_URL +
+          "products?" +
+          cart.map(({ id }) => "id=" + id).join("&");
+        const data = await fetch(url);
+        if (!data.ok) {
+          throw new Error(`Product not found: ${data.status}`);
+        }
+        const products = await data.json();
+        setProducts(products);
+      } catch (error) {
+        setError(error as Error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchData();
+  }, []);
 
   function renderItem(itemInCart: CartItem, product: Product) {
     const { sku, quantity } = itemInCart;
