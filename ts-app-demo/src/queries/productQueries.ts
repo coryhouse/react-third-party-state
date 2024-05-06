@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { Product } from "../types/types";
 
 const baseUrl = import.meta.env.VITE_APP_API_BASE_URL;
@@ -15,7 +15,7 @@ export function useGetProductById(id: string | undefined) {
 }
 
 export function useGetProductsByCategory(category: string | undefined) {
-  return useQuery({
+  return useSuspenseQuery({
     queryKey: ["products", category],
     queryFn: async () => {
       const response = await fetch(baseUrl + "products?category=" + category);
