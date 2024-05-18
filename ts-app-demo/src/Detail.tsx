@@ -9,7 +9,6 @@ import toast from "react-hot-toast";
 
 export default function Detail() {
   // Note that with useAtom this would trigger a render even though we only need the setter.
-  // To test this, comment out the navigate call on line 45.
   const setCart = useSetAtom(cartAtom);
   // const [, setItems] = useAtom(cartAtom);
   const { id } = useParams();
