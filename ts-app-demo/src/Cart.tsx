@@ -1,4 +1,3 @@
-import Spinner from "./Spinner";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "./cartContext";
 import { CartItem, Product } from "./types/types";
@@ -8,9 +7,7 @@ export default function Cart() {
   const { cart, setCart } = useCart();
   const navigate = useNavigate();
 
-  const { isLoading, data: products } = useGetProductsById(
-    cart.map((i) => i.id)
-  );
+  const { data: products } = useGetProductsById(cart.map((i) => i.id));
 
   function renderItem(itemInCart: CartItem, product: Product) {
     const { sku, quantity } = itemInCart;
@@ -51,8 +48,6 @@ export default function Cart() {
       </li>
     );
   }
-
-  if (isLoading || !products) return <Spinner />;
 
   const numItemsInCart = cart.reduce((total, item) => total + item.quantity, 0);
 
