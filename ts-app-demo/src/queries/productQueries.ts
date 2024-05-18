@@ -4,7 +4,7 @@ import { Product } from "../types/types";
 const baseUrl = import.meta.env.VITE_APP_API_BASE_URL;
 
 export function useGetProductById(id: string | undefined) {
-  return useQuery({
+  return useSuspenseQuery({
     queryKey: ["product", id],
     queryFn: async () => {
       const response = await fetch(baseUrl + `products/${id}`);
