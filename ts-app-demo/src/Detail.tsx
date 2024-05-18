@@ -1,6 +1,5 @@
-import { Suspense, useState } from "react";
+import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import Spinner from "./Spinner";
 import PageNotFound from "./PageNotFound";
 import { useCart } from "./cartContext";
 import { useGetProductById } from "./queries/productQueries";
@@ -14,8 +13,8 @@ export default function Detail() {
   const { data: product } = useGetProductById(id);
 
   return (
-    <Suspense fallback={<Spinner />}>
-      {!product ? (
+    <>
+      {!product || !id ? (
         <PageNotFound />
       ) : (
         <div id="detail">
@@ -59,6 +58,6 @@ export default function Detail() {
           <img src={`/images/${product.image}`} alt={product.category} />
         </div>
       )}
-    </Suspense>
+    </>
   );
 }

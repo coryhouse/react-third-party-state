@@ -33,9 +33,11 @@ export default function App() {
         <Route
           path="/:category/:id"
           element={
-            <ErrorBoundary FallbackComponent={DetailFallback}>
-              <Detail />
-            </ErrorBoundary>
+            <Suspense fallback={<Spinner />}>
+              <ErrorBoundary FallbackComponent={DetailFallback}>
+                <Detail />
+              </ErrorBoundary>
+            </Suspense>
           }
         />
         <Route
