@@ -42,7 +42,11 @@ export default function App() {
         />
         <Route
           path="/cart"
-          element={<Cart />}
+          element={
+            <Suspense fallback={<Spinner />}>
+              <Cart />
+            </Suspense>
+          }
           errorElement={<h1>Sorry, failed to load cart.</h1>}
         />
         <Route path="/checkout" element={<Checkout />} />
