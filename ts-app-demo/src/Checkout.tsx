@@ -3,12 +3,7 @@ import { saveShippingAddress } from "./services/shippingService";
 import { useCart } from "./cartContext";
 import { ShippingAddress } from "./types/types";
 
-const STATUS = {
-  IDLE: "IDLE",
-  SUBMITTED: "SUBMITTED",
-  SUBMITTING: "SUBMITTING",
-  COMPLETED: "COMPLETED",
-};
+type Status = "Idle" | "Submitted" | "Submitting" | "Completed";
 
 // Declaring outside component to avoid recreation on each render
 const emptyAddress: ShippingAddress = {
@@ -29,7 +24,7 @@ type Errors = {
 export default function Checkout() {
   const { setCart } = useCart();
   const [address, setAddress] = useState(emptyAddress);
-  const [status, setStatus] = useState(STATUS.IDLE);
+  const [status, setStatus] = useState<Status>("Idle");
   const [saveError, setSaveError] = useState<Error | null>(null);
   const [touched, setTouched] = useState(initialTouched);
 
@@ -60,17 +55,17 @@ export default function Checkout() {
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setStatus(STATUS.SUBMITTING);
+    setStatus("Submitting");
     if (isValid) {
       try {
         await saveShippingAddress(address);
         setCart([]);
-        setStatus(STATUS.COMPLETED);
+        setStatus("Completed");
       } catch (e) {
         setSaveError(e as Error);
       }
     } else {
-      setStatus(STATUS.SUBMITTED);
+      setStatus("Submitted");
     }
   }
 
@@ -82,14 +77,14 @@ export default function Checkout() {
   }
 
   if (saveError) throw saveError;
-  if (status === STATUS.COMPLETED) {
+  if (status === "Completed") {
     return <h1>Thanks for shopping!</h1>;
   }
 
   return (
     <>
       <h1>Shipping Info</h1>
-      {!isValid && status === STATUS.SUBMITTED && (
+      {!isValid && status === "Submitted" && (
         <div role="alert">
           <p>Please fix the following errors:</p>
           <ul>
@@ -111,7 +106,7 @@ export default function Checkout() {
             onChange={handleChange}
           />
           <p role="alert">
-            {(touched.city || status === STATUS.SUBMITTED) && errors.city}
+            {(touched.city || status === "Submitted") && errors.city}
           </p>
         </div>
 
@@ -132,7 +127,7 @@ export default function Checkout() {
           </select>
 
           <p role="alert">
-            {(touched.country || status === STATUS.SUBMITTED) && errors.country}
+            {(touched.country || status === "Submitted") && errors.country}
           </p>
         </div>
 
@@ -141,7 +136,7 @@ export default function Checkout() {
             type="submit"
             className="btn btn-primary"
             value="Save Shipping Info"
-            disabled={status === STATUS.SUBMITTING}
+            disabled={status === "Submitting"}
           />
         </div>
       </form>
