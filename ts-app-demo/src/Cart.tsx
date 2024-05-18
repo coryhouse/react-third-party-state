@@ -1,7 +1,7 @@
 import Spinner from "./Spinner";
 import { useNavigate } from "react-router-dom";
-import { useCart } from "./cartContext";
 import { CartItem, Product } from "./types/types";
+import { useCart } from "./cartContext";
 import { useEffect, useState } from "react";
 
 export default function Cart() {
