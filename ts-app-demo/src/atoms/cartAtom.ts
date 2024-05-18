@@ -1,10 +1,5 @@
 import { atomWithStorage } from "jotai/utils";
-
-export interface CartItem {
-  id: number;
-  quantity: number;
-  sku: string;
-}
+import { CartItem } from "../types/types";
 
 let initialCart: CartItem[] = [];
 
