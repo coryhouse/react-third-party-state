@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Spinner from "./Spinner";
 import PageNotFound from "./PageNotFound";
 import { addToCart } from "./cartState";
 import { Product } from "./types/types";
+import toast from "react-hot-toast";
 
 export default function Detail() {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [sku, setSku] = useState("");
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
@@ -58,7 +58,7 @@ export default function Detail() {
           className="btn btn-primary"
           onClick={() => {
             addToCart(parseInt(id), sku);
-            navigate("/cart");
+            toast.success("Added to cart", { icon: "🛒" });
           }}
         >
           Add to cart
