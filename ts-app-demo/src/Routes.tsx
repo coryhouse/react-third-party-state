@@ -13,6 +13,8 @@ import Faker from "./Faker.tsx";
 import { Layout } from "./Layout.tsx";
 import { DetailFallback } from "./DetailFallback.tsx";
 import { ErrorBoundary } from "react-error-boundary";
+import { Suspense } from "react";
+import Spinner from "./Spinner.tsx";
 
 export default function App() {
   const router = createBrowserRouter(
@@ -21,8 +23,12 @@ export default function App() {
         <Route path="/" element={<h1>Welcome to the store!</h1>} />
         <Route
           path="/:category"
-          element={<Products />}
-          errorElement={<h1>Sorry, failed to load products.</h1>}
+          element={
+            <Suspense fallback={<Spinner />}>
+              <Products />
+            </Suspense>
+          }
+          errorElement={<h1>Failed to load products.</h1>}
         />
         <Route
           path="/:category/:id"
