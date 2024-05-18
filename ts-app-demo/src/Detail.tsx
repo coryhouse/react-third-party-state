@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Spinner from "./Spinner";
 import PageNotFound from "./PageNotFound";
 import { useCart } from "./cartContext";
 import { Product } from "./types/types";
+import toast from "react-hot-toast";
 
 export default function Detail() {
   const { setCart } = useCart();
   const { id } = useParams();
-  const navigate = useNavigate();
   const [sku, setSku] = useState("");
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
@@ -67,7 +67,7 @@ export default function Detail() {
                   )
                 : [...cart, { id: parseInt(id), sku, quantity: 1 }];
             });
-            navigate("/cart");
+            toast("Added to cart", { icon: "🛒" });
           }}
         >
           Add to cart
