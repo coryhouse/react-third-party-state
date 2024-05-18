@@ -1,7 +1,7 @@
 import Spinner from "./Spinner";
 import { useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
-import { CartItem as CartItemType, cartAtom } from "./atoms/cartAtom";
+import { CartItem, cartAtom } from "./atoms/cartAtom";
 import { Product } from "./types/types";
 import { useEffect, useState } from "react";
 
@@ -40,7 +40,7 @@ export default function Cart() {
 
   const numItemsInCart = cart.reduce((total, item) => total + item.quantity, 0);
 
-  function renderCartItem(cartItem: CartItemType, product: Product) {
+  function renderCartItem(cartItem: CartItem, product: Product) {
     const { sku, quantity } = cartItem;
     const { name, image, skus, price } = product;
     const matchingSku = skus.find((s) => s.sku === sku);
