@@ -1,4 +1,4 @@
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { Product } from "../types/types";
 
 const baseUrl = import.meta.env.VITE_APP_API_BASE_URL;
@@ -32,7 +32,7 @@ export function useGetProductsById(productIds: number[]) {
     url.searchParams.append("id", id.toString())
   );
 
-  return useQuery({
+  return useSuspenseQuery({
     queryKey: ["products", Object.fromEntries(url.searchParams)], // https://www.reddit.com/r/reactjs/comments/15vjwfc/comment/jx2r8v0/
     queryFn: async () => {
       const response = await fetch(url);
