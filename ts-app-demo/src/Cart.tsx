@@ -1,8 +1,8 @@
 import Spinner from "./Spinner";
 import { useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
-import { cartAtom } from "./atoms/cartAtom";
 import { Product, CartItem } from "./types/types";
+import { cartAtom } from "./atoms/cartAtom";
 import { useEffect, useState } from "react";
 
 export default function Cart() {
