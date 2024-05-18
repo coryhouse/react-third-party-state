@@ -1,12 +1,11 @@
 import Spinner from "./Spinner";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "./cartContext";
-import { Product } from "./types/types";
+import { CartItem, Product } from "./types/types";
 import { useEffect, useState } from "react";
-import { CartItem } from "./CartItem";
 
 export default function Cart() {
-  const { cart } = useCart();
+  const { cart, setCart } = useCart();
   const navigate = useNavigate();
 
   const [products, setProducts] = useState<Product[] | null>(null);
@@ -40,6 +39,46 @@ export default function Cart() {
 
   const numItemsInCart = cart.reduce((total, item) => total + item.quantity, 0);
 
+  function renderCartItem(cartItem: CartItem, product: Product) {
+    const { sku, quantity } = cartItem;
+    const { name, image, skus, price } = product;
+    const matchingSku = skus.find((s) => s.sku === sku);
+    if (!matchingSku) throw new Error("Sku not found");
+    const { size } = matchingSku;
+
+    return (
+      <li key={sku} className="cart-item">
+        <img src={`/images/${image}`} alt={name} />
+        <div>
+          <h3>{name}</h3>
+          <p>${price}</p>
+          <p>Size: {size}</p>
+          <p>
+            <select
+              aria-label={`Select quantity for ${name} size ${size}`}
+              onChange={(e) => {
+                const quantity = parseInt(e.target.value);
+                setCart((cart) =>
+                  quantity === 0
+                    ? cart.filter((i) => i.sku !== sku)
+                    : cart.map((i) => (i.sku === sku ? { ...i, quantity } : i))
+                );
+              }}
+              value={quantity}
+            >
+              <option value="0">Remove</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </p>
+        </div>
+      </li>
+    );
+  }
+
   return (
     <section id="cart">
       <h1>
@@ -51,13 +90,7 @@ export default function Cart() {
         {cart.map((cartItem) => {
           const product = products.find((p) => p.id === cartItem.id);
           if (!product) throw new Error("Product not found");
-          return (
-            <CartItem
-              key={cartItem.id + cartItem.sku}
-              cartItem={cartItem}
-              product={product}
-            />
-          );
+          return renderCartItem(cartItem, product);
         })}
       </ul>
       {cart.length > 0 && (
