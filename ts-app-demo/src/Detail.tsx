@@ -6,7 +6,9 @@ import { Product } from "./types/types";
 import { useCartStore } from "./cartStore";
 
 export default function Detail() {
-  const { addToCart } = useCartStore();
+  const addToCart = useCartStore((state) => state.addToCart);
+  // Note that the above line optimizes for renders. Can show this by commenting out the navigate call below.
+  // const { addToCart } = useCartStore();
   const { id } = useParams();
   const navigate = useNavigate();
   const [sku, setSku] = useState("");
