@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Spinner from "./Spinner";
 import PageNotFound from "./PageNotFound";
 import { Product } from "./types/types";
 import { useCartStore } from "./cartStore";
+import toast from "react-hot-toast";
 
 export default function Detail() {
   const addToCart = useCartStore((state) => state.addToCart);
   // Note that the above line optimizes for renders. Can show this by commenting out the navigate call below.
   // const { addToCart } = useCartStore();
   const { id } = useParams();
-  const navigate = useNavigate();
   const [sku, setSku] = useState("");
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
@@ -62,7 +62,7 @@ export default function Detail() {
           onClick={() => {
             if (!sku) return alert("Select size.");
             addToCart(parseInt(id), sku);
-            navigate("/cart");
+            toast.success("Added to cart", { icon: "🛒" });
           }}
         >
           Add to cart

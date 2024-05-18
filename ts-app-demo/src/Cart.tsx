@@ -1,11 +1,12 @@
 import Spinner from "./Spinner";
 import { useNavigate } from "react-router-dom";
 import { useCartStore } from "./cartStore";
-import { CartItem, Product } from "./types/types";
+import { Product } from "./types/types";
 import { useEffect, useState } from "react";
+import { CartItem } from "./CartItem";
 
 export default function Cart() {
-  const { cart, updateCartQuantity } = useCartStore();
+  const { cart } = useCartStore();
   const navigate = useNavigate();
 
   const [products, setProducts] = useState<Product[] | null>(null);
@@ -34,41 +35,6 @@ export default function Cart() {
     fetchData();
   }, []);
 
-  function renderItem(itemInCart: CartItem, product: Product) {
-    const { sku, quantity } = itemInCart;
-    const { name, image, skus, price } = product;
-    const matchingSku = skus.find((s) => s.sku === sku);
-    if (!matchingSku) throw new Error("Sku not found");
-    const { size } = matchingSku;
-
-    return (
-      <li key={sku} className="cart-item">
-        <img src={`/images/${image}`} alt={name} />
-        <div>
-          <h3>{name}</h3>
-          <p>${price}</p>
-          <p>Size: {size}</p>
-          <p>
-            <select
-              aria-label={`Select quantity for ${name} size ${size}`}
-              onChange={(e) =>
-                updateCartQuantity(sku, parseInt(e.target.value))
-              }
-              value={quantity}
-            >
-              <option value="0">Remove</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </select>
-          </p>
-        </div>
-      </li>
-    );
-  }
-
   if (loading || !products) return <Spinner />;
   if (error) throw error;
 
@@ -85,7 +51,13 @@ export default function Cart() {
         {cart.map((cartItem) => {
           const product = products.find((p) => p.id === cartItem.id);
           if (!product) throw new Error("Product not found");
-          return renderItem(cartItem, product);
+          return (
+            <CartItem
+              key={cartItem.id + cartItem.sku}
+              cartItem={cartItem}
+              product={product}
+            />
+          );
         })}
       </ul>
       {cart.length > 0 && (
