@@ -5,6 +5,7 @@ import { CartProvider } from "./cartContext";
 import "./main.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
+import { Toaster } from "react-hot-toast";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -21,6 +22,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <CartProvider>
         <QueryClientProvider client={queryClient}>
           <Routes />
+          <Toaster />
         </QueryClientProvider>
       </CartProvider>
     </ErrorBoundary>

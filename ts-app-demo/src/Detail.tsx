@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import PageNotFound from "./PageNotFound";
 import { useCart } from "./cartContext";
 import { useGetProductById } from "./queries/productQueries";
+import toast from "react-hot-toast";
 
 export default function Detail() {
   const { setCart } = useCart();
   const { id } = useParams();
-  const navigate = useNavigate();
   const [sku, setSku] = useState("");
 
   const { data: product } = useGetProductById(id);
@@ -43,7 +43,7 @@ export default function Detail() {
                   )
                 : [...cart, { id: parseInt(id), sku, quantity: 1 }];
             });
-            navigate("/cart");
+            toast("Added to cart", { icon: "🛒" });
           }}
         >
           Add to cart
