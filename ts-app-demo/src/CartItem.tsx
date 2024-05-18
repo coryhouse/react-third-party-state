@@ -1,5 +1,6 @@
-import { useCart } from "./cartContext";
+import { useSetAtom } from "jotai";
 import { CartItem as CartItemType, Product } from "./types/types";
+import { cartAtom } from "./atoms/cartAtom";
 
 type CartItemProps = {
   cartItem: CartItemType;
@@ -7,7 +8,7 @@ type CartItemProps = {
 };
 
 export function CartItem({ cartItem, product }: CartItemProps) {
-  const { setCart } = useCart();
+  const setCart = useSetAtom(cartAtom);
   const { sku, quantity } = cartItem;
   const { name, image, skus, price } = product;
   const matchingSku = skus.find((s) => s.sku === sku);
