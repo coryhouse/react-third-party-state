@@ -3,11 +3,11 @@ import { useParams } from "react-router-dom";
 import Spinner from "./Spinner";
 import PageNotFound from "./PageNotFound";
 import { Product } from "./types/types";
-import { useStore } from "./shoeStore";
+import { useShoeStore } from "./shoeStore";
 import toast from "react-hot-toast";
 
 export default function Detail() {
-  const addToCart = useStore((state) => state.addToCart);
+  const addToCart = useShoeStore((state) => state.addToCart);
   const { id } = useParams();
   const [sku, setSku] = useState("");
   const [product, setProduct] = useState<Product | null>(null);

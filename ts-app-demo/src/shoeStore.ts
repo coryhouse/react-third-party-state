@@ -13,7 +13,7 @@ type ShoeStore = {
 };
 
 // Show without persist first, then add persist and 2nd argument to store in localStorage.
-export const useStore = create(
+export const useShoeStore = create(
   persist<ShoeStore>(
     (set) => ({
       user: null,
