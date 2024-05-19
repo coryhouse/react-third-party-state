@@ -43,7 +43,7 @@ export default function Header() {
           </li>
           {user && (
             <li>
-              <button onClick={() => logOut()}>Log out</button>
+              <button onClick={logOut}>Log out</button>
             </li>
           )}
         </ul>
