@@ -1,8 +1,8 @@
 // NOTE: Do NOT import from zustand. Import OUR store instead.
-import { useStore } from "./store";
+import { useStore } from "./shoeStore";
 
 export function Account() {
-  const { user } = useStore((store) => ({ user: store.user }));
+  const user = useStore((state) => state.user);
 
   return (
     <>

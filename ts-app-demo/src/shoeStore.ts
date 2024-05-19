@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { CartItem, User } from "./types/types";
 import { persist } from "zustand/middleware";
 
-type Store = {
+type ShoeStore = {
   user: User | null;
   logIn: (user: User) => void;
   logOut: () => void;
@@ -14,7 +14,7 @@ type Store = {
 
 // Show without persist first, then add persist and 2nd argument to store in localStorage.
 export const useStore = create(
-  persist<Store>(
+  persist<ShoeStore>(
     (set) => ({
       user: null,
       logIn: (user) => set({ user }),

@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import Spinner from "./Spinner";
 import PageNotFound from "./PageNotFound";
 import { Product } from "./types/types";
-import { useStore } from "./store";
+import { useStore } from "./shoeStore";
 import toast from "react-hot-toast";
 
 export default function Detail() {
