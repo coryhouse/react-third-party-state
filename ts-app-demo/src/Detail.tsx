@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import PageNotFound from "./PageNotFound";
-import { useCart } from "./cartContext";
-import { useGetProductById } from "./queries/productQueries";
+import { useCart } from "./context/cartContext";
 import toast from "react-hot-toast";
+import { useGetProductById } from "./queries/productQueries";
 
 export default function Detail() {
   const { setCart } = useCart();

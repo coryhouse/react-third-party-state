@@ -15,6 +15,7 @@ import { DetailFallback } from "./DetailFallback.tsx";
 import { ErrorBoundary } from "react-error-boundary";
 import { Suspense } from "react";
 import Spinner from "./Spinner.tsx";
+import { Account } from "./Account.tsx";
 
 export default function App() {
   const router = createBrowserRouter(
@@ -50,6 +51,7 @@ export default function App() {
           errorElement={<h1>Sorry, failed to load cart.</h1>}
         />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/account" element={<Account />} />
         <Route path="/faker" element={<Faker />} />
       </Route>
     )
