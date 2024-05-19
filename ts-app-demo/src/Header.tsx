@@ -2,7 +2,13 @@ import { Link, NavLink } from "react-router-dom";
 import { useStore } from "./store";
 
 export default function Header() {
-  const { cart, user, logOut, logIn } = useStore();
+  const { cart, user, logOut, logIn } = useStore((store) => ({
+    cart: store.cart,
+    user: store.user,
+    logOut: store.logOut,
+    logIn: store.logIn,
+  }));
+
   return (
     <header>
       <nav>

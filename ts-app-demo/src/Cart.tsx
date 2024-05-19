@@ -5,7 +5,11 @@ import { CartItem, Product } from "./types/types";
 import { useEffect, useState } from "react";
 
 export default function Cart() {
-  const { cart, updateCartQuantity } = useStore();
+  const { cart, updateCartQuantity } = useStore((store) => ({
+    cart: store.cart,
+    updateCartQuantity: store.updateCartQuantity,
+  }));
+
   const navigate = useNavigate();
 
   const [products, setProducts] = useState<Product[] | null>(null);
