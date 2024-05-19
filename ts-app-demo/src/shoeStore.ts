@@ -16,7 +16,8 @@ type Action = {
 };
 
 // Show without persist first, then add persist and 2nd argument to store in localStorage.
-export const useShoeStore = create(
+// Need extra parens per https://docs.pmnd.rs/zustand/guides/typescript
+export const useShoeStore = create<State & Action>()(
   persist<State & Action>(
     (set) => ({
       user: null,
