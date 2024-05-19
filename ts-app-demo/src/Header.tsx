@@ -1,10 +1,10 @@
 import { Link, NavLink } from "react-router-dom";
-import { useShoeStore } from "./shoeStore";
+import { logIn, logOut, useShoeStore } from "./shoeStore";
 
 export default function Header() {
   // Note: This is NOT optimized. It will re-render on every store change.
   // But since this component is basically using the entire store, a selector won't help.
-  const { cart, user, logOut, logIn } = useShoeStore();
+  const { cart, user } = useShoeStore();
 
   return (
     <header>

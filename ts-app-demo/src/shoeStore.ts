@@ -30,8 +30,7 @@ export const useShoeStore = create(
 // 1. More verbose
 // 2. Less ergonomic
 // 3. Have to import separately
-export const logIn = () =>
-  useShoeStore.setState((state) => ({ user: state.user }));
+export const logIn = (user: User) => useShoeStore.setState(() => ({ user }));
 
 export const logOut = () => useShoeStore.setState(() => ({ user: null }));
 

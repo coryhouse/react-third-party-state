@@ -6,11 +6,10 @@ import { useEffect, useState } from "react";
 
 export default function Cart() {
   // Not optimized
-  const { cart } = useShoeStore();
+  // const { cart } = useShoeStore();
 
   // Optimized
-  // const updateCartQuantity = useStore((state) => state.updateCartQuantity);
-  // const cart = useStore((state) => state.cart);
+  const cart = useShoeStore((state) => state.cart);
 
   const navigate = useNavigate();
 
