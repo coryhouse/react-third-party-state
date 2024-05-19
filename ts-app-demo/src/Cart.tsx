@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 export default function Cart() {
   // Not optimized
   const { cart, updateCartQuantity } = useStore();
+
+  // Optimized
   // const updateCartQuantity = useStore((state) => state.updateCartQuantity);
   // const cart = useStore((state) => state.cart);
 
