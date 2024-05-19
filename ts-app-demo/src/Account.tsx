@@ -1,4 +1,3 @@
-// NOTE: Do NOT import from zustand. Import OUR store instead.
 import { useShoeStore } from "./shoeStore";
 
 export function Account() {
