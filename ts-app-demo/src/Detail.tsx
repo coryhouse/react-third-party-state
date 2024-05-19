@@ -8,8 +8,6 @@ import toast from "react-hot-toast";
 
 export default function Detail() {
   const addToCart = useStore((state) => state.addToCart);
-  // Note that the above line optimizes for renders. Can show this by commenting out the navigate call below.
-  // const { addToCart } = useCartStore();
   const { id } = useParams();
   const [sku, setSku] = useState("");
   const [product, setProduct] = useState<Product | null>(null);
