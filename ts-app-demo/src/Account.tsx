@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useStore } from "./store";
 
 export function Account() {
-  const { user } = useStore();
+  const { user } = useStore((store) => ({ user: store.user }));
   const navigate = useNavigate();
 
   if (!user) {

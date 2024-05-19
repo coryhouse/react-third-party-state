@@ -22,7 +22,7 @@ type Errors = {
 };
 
 export default function Checkout() {
-  const { emptyCart } = useStore();
+  const { emptyCart } = useStore((store) => ({ emptyCart: store.emptyCart }));
   const [address, setAddress] = useState(emptyAddress);
   const [status, setStatus] = useState<Status>("Idle");
   const [saveError, setSaveError] = useState<Error | null>(null);
