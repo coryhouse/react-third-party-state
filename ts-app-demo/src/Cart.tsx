@@ -1,11 +1,11 @@
 import Spinner from "./Spinner";
 import { useNavigate } from "react-router-dom";
-import { useCartStore } from "./cartStore";
+import { useStore } from "./store";
 import { CartItem, Product } from "./types/types";
 import { useEffect, useState } from "react";
 
 export default function Cart() {
-  const { cart, updateCartQuantity } = useCartStore();
+  const { cart, updateCartQuantity } = useStore();
   const navigate = useNavigate();
 
   const [products, setProducts] = useState<Product[] | null>(null);

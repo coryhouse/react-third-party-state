@@ -1,8 +1,11 @@
 import { create } from "zustand";
-import { CartItem } from "./types/types";
+import { CartItem, User } from "./types/types";
 import { persist } from "zustand/middleware";
 
 type Store = {
+  user: User | null;
+  logIn: (user: User) => void;
+  logOut: () => void;
   cart: CartItem[];
   emptyCart: () => void;
   updateCartQuantity: (sku: string, quantity: number) => void;
@@ -10,9 +13,12 @@ type Store = {
 };
 
 // Show without persist first, then add persist and 2nd argument to store in localStorage.
-export const useCartStore = create(
+export const useStore = create(
   persist<Store>(
     (set) => ({
+      user: null,
+      logIn: (user) => set({ user }),
+      logOut: () => set({ user: null }),
       cart: [],
       emptyCart: () => set({ cart: [] }),
       updateCartQuantity: (sku: string, quantity: number) => {
@@ -36,6 +42,6 @@ export const useCartStore = create(
         });
       },
     }),
-    { name: "cart" }
+    { name: "zustand-store" }
   )
 );

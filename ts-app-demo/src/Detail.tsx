@@ -3,11 +3,11 @@ import { useParams } from "react-router-dom";
 import Spinner from "./Spinner";
 import PageNotFound from "./PageNotFound";
 import { Product } from "./types/types";
-import { useCartStore } from "./cartStore";
+import { useStore } from "./store";
 import toast from "react-hot-toast";
 
 export default function Detail() {
-  const addToCart = useCartStore((state) => state.addToCart);
+  const addToCart = useStore((state) => state.addToCart);
   // Note that the above line optimizes for renders. Can show this by commenting out the navigate call below.
   // const { addToCart } = useCartStore();
   const { id } = useParams();
