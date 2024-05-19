@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Spinner from "./Spinner";
 import PageNotFound from "./PageNotFound";
-import { addToCart } from "./cartState";
+import { addToCart } from "./valtio/cartState";
 import { Product } from "./types/types";
 import toast from "react-hot-toast";
 

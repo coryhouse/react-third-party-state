@@ -11,6 +11,7 @@ import Cart from "./Cart.tsx";
 import Checkout from "./Checkout.tsx";
 import Faker from "./Faker.tsx";
 import { Layout } from "./Layout.tsx";
+import { Account } from "./Account.tsx";
 
 export default function App() {
   const router = createBrowserRouter(
@@ -29,6 +30,7 @@ export default function App() {
           errorElement={<h1>Sorry, failed to load cart.</h1>}
         />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/account" element={<Account />} />
         <Route path="/faker" element={<Faker />} />
       </Route>
     )

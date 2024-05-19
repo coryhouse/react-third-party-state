@@ -1,7 +1,7 @@
 import Spinner from "./Spinner";
 import { useNavigate } from "react-router-dom";
 import { useSnapshot } from "valtio";
-import { cartState, updateQuantity } from "./cartState";
+import { cartState, updateQuantity } from "./valtio/cartState";
 import { CartItem, Product } from "./types/types";
 import { useEffect, useState } from "react";
 

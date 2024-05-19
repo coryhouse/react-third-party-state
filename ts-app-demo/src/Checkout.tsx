@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { saveShippingAddress } from "./services/shippingService";
-import { emptyCart } from "./cartState";
+import { emptyCart } from "./valtio/cartState";
 import { ShippingAddress } from "./types/types";
 
 type Status = "Idle" | "Submitted" | "Submitting" | "Completed";

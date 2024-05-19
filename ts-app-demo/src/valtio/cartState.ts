@@ -1,19 +1,21 @@
 import { proxy, subscribe } from "valtio";
-import { CartItem } from "./types/types";
+import { CartItem } from "../types/types";
 
 type CartState = {
   cart: CartItem[];
 };
 
-const initialState: CartState = localStorage.getItem("cart")
-  ? JSON.parse(localStorage.getItem("cart") ?? "")
+const localStorageKey = "valtio-cart";
+
+const initialState: CartState = localStorage.getItem(localStorageKey)
+  ? JSON.parse(localStorage.getItem(localStorageKey) ?? "")
   : { cart: [] };
 
 export const cartState = proxy<CartState>(initialState);
 
 // Save cart updates to localStorage
 subscribe(cartState, () => {
-  localStorage.setItem("cart", JSON.stringify(cartState));
+  localStorage.setItem(localStorageKey, JSON.stringify(cartState));
 });
 
 function getItemIndexBySku(sku: string) {
