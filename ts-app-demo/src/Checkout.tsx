@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { saveShippingAddress } from "./services/shippingService";
-import { useCart } from "./cartContext";
+import { useCart } from "./context/cartContext";
 import { ShippingAddress } from "./types/types";
 
 type Status = "Idle" | "Submitted" | "Submitting" | "Completed";
