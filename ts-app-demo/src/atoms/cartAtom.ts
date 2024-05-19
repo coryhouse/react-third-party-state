@@ -15,4 +15,4 @@ let initialCart: CartItem[] = [];
 
 // export const cartAtom = atom(initialCart);
 
-export const cartAtom = atomWithStorage("cart", initialCart);
+export const cartAtom = atomWithStorage("jotai-cart", initialCart);
