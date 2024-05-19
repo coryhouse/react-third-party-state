@@ -1,8 +1,11 @@
 import { Link, NavLink } from "react-router-dom";
-import { useCart } from "./cartContext";
+import { useCart } from "./context/cartContext";
+import { useUser } from "./context/userContext";
 
 export default function Header() {
   const { cart } = useCart();
+  const { user, setUser } = useUser();
+
   return (
     <header>
       <nav>
@@ -24,6 +27,22 @@ export default function Header() {
               )
             </NavLink>
           </li>
+          <li>
+            {user ? (
+              <NavLink to="/account">Account</NavLink>
+            ) : (
+              <button
+                onClick={() => setUser({ id: 1, email: "cory@example.com" })}
+              >
+                Log in
+              </button>
+            )}
+          </li>
+          {user && (
+            <li>
+              <button onClick={() => setUser(null)}>Log out</button>
+            </li>
+          )}
         </ul>
       </nav>
     </header>
