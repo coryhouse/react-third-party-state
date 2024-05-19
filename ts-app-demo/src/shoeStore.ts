@@ -20,6 +20,7 @@ export const useShoeStore = create(
   persist<State & Action>(
     (set) => ({
       user: null,
+      // set merges state, so we don't have to spread the entire state object. This partial declaration will be merged with the existing state.
       logIn: (user) => set({ user }),
       logOut: () => set({ user: null }),
       cart: [],
@@ -33,14 +34,16 @@ export const useShoeStore = create(
         }));
       },
       addToCart: (id: number, sku: string) => {
-        set((state) => {
-          const itemInCart = state.cart.find((i) => i.sku === sku);
+        set(({ cart }) => {
+          const itemInCart = cart.find((i) => i.sku === sku);
           return {
             cart: itemInCart
-              ? state.cart.map((i) =>
-                  i.sku === sku ? { ...i, quantity: i.quantity + 1 } : i
+              ? cart.map((item) =>
+                  item.sku === sku
+                    ? { ...item, quantity: item.quantity + 1 }
+                    : item
                 )
-              : [...state.cart, { id, sku, quantity: 1 }],
+              : [...cart, { id, sku, quantity: 1 }],
           };
         });
       },
