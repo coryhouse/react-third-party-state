@@ -1,20 +1,13 @@
-import { useNavigate } from "react-router-dom";
 // NOTE: Do NOT import from zustand. Import OUR store instead.
 import { useStore } from "./store";
 
 export function Account() {
   const { user } = useStore((store) => ({ user: store.user }));
-  const navigate = useNavigate();
-
-  if (!user) {
-    navigate("/");
-    return;
-  }
 
   return (
     <>
       <h1>Account</h1>
-      <p>Email: {user.email}</p>
+      {user ? <p>Email: {user.email}</p> : <p>Please log in.</p>}
     </>
   );
 }
