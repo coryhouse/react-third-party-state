@@ -27,11 +27,12 @@ export const useShoeStore = create<State>()(
 // 4. Don't need to declare the Store's Action type
 // 5. Don't need to declare a selector to optimize renders
 // 6. The store declaration is more concise and easy to scan since it's only state
+// 7. Can be used outside React
 
 // But:
 // 1. More verbose
 // 2. Less ergonomic
-// 3. Have to import separately
+// 3. Have to import each separately
 export const logIn = (user: User) => useShoeStore.setState(() => ({ user }));
 
 export const logOut = () => useShoeStore.setState(() => ({ user: null }));
