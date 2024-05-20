@@ -10,7 +10,7 @@ type State = {
 // Show without persist first, then add persist and 2nd argument to store in localStorage.
 // Need extra parens per https://docs.pmnd.rs/zustand/guides/typescript
 // This is deliberately not exported so that the store can only be accessed through the custom hooks that optimize perf.
-const useShoeStore = create<State>()(
+export const useShoeStore = create<State>()(
   persist<State>(
     () => ({
       user: null,
