@@ -9,7 +9,8 @@ type State = {
 
 // Show without persist first, then add persist and 2nd argument to store in localStorage.
 // Need extra parens per https://docs.pmnd.rs/zustand/guides/typescript
-export const useShoeStore = create<State>()(
+// This is deliberately not exported so that the store can only be accessed through the custom hooks that optimize perf.
+const useShoeStore = create<State>()(
   persist<State>(
     () => ({
       user: null,
@@ -58,3 +59,11 @@ export const addToCart = (id: number, sku: string) => {
     };
   });
 };
+
+// Export custom hooks to use the store. This assures everyone accesses it efficiently and avoids repeating selectors in components.
+export const useCart = () => useShoeStore((state) => state.cart);
+export const useUser = () => useShoeStore((state) => state.user);
+export const useCartCount = () =>
+  useShoeStore((state) =>
+    state.cart.reduce((acc, item) => acc + item.quantity, 0)
+  );

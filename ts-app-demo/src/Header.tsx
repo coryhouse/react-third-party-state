@@ -1,10 +1,9 @@
 import { Link, NavLink } from "react-router-dom";
-import { logIn, logOut, useShoeStore } from "./shoeStore";
+import { logIn, logOut, useCartCount, useUser } from "./shoeStore";
 
 export default function Header() {
-  // Note: This is NOT optimized. It will re-render on every store change.
-  // But since this component is basically using the entire store, a selector won't help.
-  const { cart, user } = useShoeStore();
+  const user = useUser();
+  const cartCount = useCartCount();
 
   return (
     <header>
@@ -19,13 +18,7 @@ export default function Header() {
             <NavLink to="/shoes">Shoes</NavLink>
           </li>
           <li>
-            <NavLink to="/cart">
-              Cart (
-              {cart.reduce((prev, acc) => {
-                return prev + acc.quantity;
-              }, 0)}
-              )
-            </NavLink>
+            <NavLink to="/cart">Cart ({cartCount})</NavLink>
           </li>
           <li>
             {user ? (

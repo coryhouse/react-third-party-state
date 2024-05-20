@@ -1,6 +1,6 @@
 import Spinner from "./Spinner";
 import { useNavigate } from "react-router-dom";
-import { updateCartQuantity, useShoeStore } from "./shoeStore";
+import { updateCartQuantity, useCart } from "./shoeStore";
 import { CartItem, Product } from "./types/types";
 import { useEffect, useState } from "react";
 
@@ -9,7 +9,7 @@ export default function Cart() {
   // const { cart } = useShoeStore();
 
   // Optimized
-  const cart = useShoeStore((state) => state.cart);
+  const cart = useCart();
 
   const navigate = useNavigate();
 
