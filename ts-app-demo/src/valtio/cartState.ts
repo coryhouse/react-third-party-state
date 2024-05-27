@@ -22,7 +22,8 @@ function getItemIndexBySku(sku: string) {
   return cartState.cart.findIndex((i) => i.sku === sku);
 }
 
-// Utility functions below here. Note that all these calls are mutative which we can safely do because Valtio uses a proxy.
+// Utility functions below here. These are deliberately separate from cartState to enable code splitting.
+// Note: These calls are mutative because Valtio uses a proxy.
 export function addToCart(id: number, sku: string) {
   const itemIndex = getItemIndexBySku(sku);
   if (itemIndex > -1) {
