@@ -1,4 +1,6 @@
-import { atom } from "jotai";
 import { CartItem } from "../types/types";
+import { atomWithStorage } from "jotai/utils";
 
-export const cartAtom = atom<CartItem[]>([]);
+let initialCart: CartItem[] = [];
+
+export const cartAtom = atomWithStorage("jotai-cart", initialCart);

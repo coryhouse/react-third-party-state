@@ -4,7 +4,7 @@ import { userAtom } from "./atoms/userAtom";
 import { cartAtom } from "./atoms/cartAtom";
 
 export default function Header() {
-  const cart = useAtomValue(cartAtom);
+  const [cart] = useAtom(cartAtom);
   const [user, setUser] = useAtom(userAtom);
 
   return (
