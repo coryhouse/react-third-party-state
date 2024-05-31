@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Spinner from "./Spinner";
 import PageNotFound from "./PageNotFound";
-import { useCart } from "./context/cartContext";
 import { Product } from "./types/types";
 import toast from "react-hot-toast";
+import { useShoeStore } from "./useShoeStore";
 
 export default function Detail() {
-  const { setCart } = useCart();
+  const addToCart = useShoeStore((state) => state.addToCart);
   const { id } = useParams();
   const [sku, setSku] = useState("");
   const [product, setProduct] = useState<Product | null>(null);
@@ -59,14 +59,7 @@ export default function Detail() {
           className="btn btn-primary"
           onClick={() => {
             if (!sku) return alert("Select size.");
-            setCart((cart) => {
-              const itemInCart = cart.find((i) => i.sku === sku);
-              return itemInCart
-                ? cart.map((i) =>
-                    i.sku === sku ? { ...i, quantity: i.quantity + 1 } : i
-                  )
-                : [...cart, { id: parseInt(id), sku, quantity: 1 }];
-            });
+            addToCart(parseInt(id), sku);
             toast("Added to cart", { icon: "🛒" });
           }}
         >
