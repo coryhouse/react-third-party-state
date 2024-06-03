@@ -13,6 +13,7 @@ import Faker from "./Faker.tsx";
 import { Layout } from "./Layout.tsx";
 import { Account } from "./Account.tsx";
 import { Suspense } from "react";
+import Spinner from "./Spinner.tsx";
 
 export default function App() {
   const router = createBrowserRouter(
@@ -27,7 +28,7 @@ export default function App() {
         <Route
           path="/:category/:id"
           element={
-            <Suspense fallback={<h1>Loading...</h1>}>
+            <Suspense fallback={<Spinner />}>
               <Detail />
             </Suspense>
           }

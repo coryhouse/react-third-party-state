@@ -47,7 +47,7 @@ export default function Products() {
           <h3>{p.name}</h3>
           <p>${p.price}</p>
         </Link>
-        <button onClick={() => deleteProduct.mutate(p.id)}>Delete Shoe</button>
+        {/* <button onClick={() => deleteProduct.mutate(p.id)}>Delete Shoe</button> */}
       </div>
     );
   }
