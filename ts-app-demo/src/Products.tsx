@@ -35,7 +35,7 @@ export default function Products() {
       if (!response.ok) throw response;
     },
     onSettled: () => {
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries({ queryKey: ["products", category] });
     },
   });
 
