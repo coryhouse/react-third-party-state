@@ -1,10 +1,11 @@
 import { Link, NavLink } from "react-router-dom";
-import { useCart } from "./context/cartContext";
-import { useUser } from "./context/userContext";
+import { useSnapshot } from "valtio";
+import { cartState } from "./valtio/cartState";
+import { logIn, logOut, userState } from "./valtio/userState";
 
 export default function Header() {
-  const { cart } = useCart();
-  const { user, setUser } = useUser();
+  const { cart } = useSnapshot(cartState);
+  const { user } = useSnapshot(userState);
 
   return (
     <header>
@@ -32,7 +33,7 @@ export default function Header() {
               <NavLink to="/account">Account</NavLink>
             ) : (
               <button
-                onClick={() => setUser({ id: 1, email: "cory@example.com" })}
+                onClick={() => logIn({ id: 1, email: "cory@example.com" })}
               >
                 Log in
               </button>
@@ -40,7 +41,7 @@ export default function Header() {
           </li>
           {user && (
             <li>
-              <button onClick={() => setUser(null)}>Log out</button>
+              <button onClick={logOut}>Log out</button>
             </li>
           )}
         </ul>
