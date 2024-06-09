@@ -1,7 +1,8 @@
-import { useUser } from "./context/userContext";
+import { useAtom, useAtomValue } from "jotai";
+import { userAtom } from "./atoms/userAtom";
 
 export function Account() {
-  const { user } = useUser();
+  const [user] = useAtom(userAtom);
 
   return (
     <>

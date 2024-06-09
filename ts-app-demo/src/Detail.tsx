@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Spinner from "./Spinner";
 import PageNotFound from "./PageNotFound";
-import { useCart } from "./context/cartContext";
 import { Product } from "./types/types";
 import toast from "react-hot-toast";
+import { cartAtom } from "./atoms/cartAtom";
+import { useSetAtom } from "jotai";
 
 export default function Detail() {
-  const { setCart } = useCart();
+  const setCart = useSetAtom(cartAtom);
   const { id } = useParams();
   const [sku, setSku] = useState("");
   const [product, setProduct] = useState<Product | null>(null);
