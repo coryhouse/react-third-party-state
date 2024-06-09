@@ -1,42 +1,20 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import Spinner from "./Spinner";
 import PageNotFound from "./PageNotFound";
 import { useCart } from "./context/cartContext";
-import { Product } from "./types/types";
 import toast from "react-hot-toast";
+import { useGetProductById } from "./queries/productQueries";
 
 export default function Detail() {
   const { setCart } = useCart();
   const { id } = useParams();
   const [sku, setSku] = useState("");
-  const [product, setProduct] = useState<Product | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const data = await fetch(
-          import.meta.env.VITE_APP_API_BASE_URL + `products/${id}`
-        );
-        if (!data.ok) {
-          throw new Error(`Product not found: ${data.status}`);
-        }
-        const product = await data.json();
-        setProduct(product);
-      } catch (error) {
-        setError(error as Error);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchData();
-  }, [id]);
+  const { isLoading, data: product } = useGetProductById(id);
 
-  if (loading) return <Spinner />;
+  if (isLoading) return <Spinner />;
   if (!product || !id) return <PageNotFound />;
-  if (error) throw error;
 
   return (
     <div id="detail">

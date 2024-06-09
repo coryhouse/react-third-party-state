@@ -2,40 +2,17 @@ import Spinner from "./Spinner";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "./context/cartContext";
 import { CartItem, Product } from "./types/types";
-import { useEffect, useState } from "react";
+import { useGetProductsById } from "./queries/productQueries";
 
 export default function Cart() {
   const { cart, setCart } = useCart();
   const navigate = useNavigate();
 
-  const [products, setProducts] = useState<Product[] | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  const { isLoading, data: products } = useGetProductsById(
+    cart.map((i) => i.id)
+  );
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const url =
-          import.meta.env.VITE_APP_API_BASE_URL +
-          "products?" +
-          cart.map(({ id }) => "id=" + id).join("&");
-        const data = await fetch(url);
-        if (!data.ok) {
-          throw new Error(`Product not found: ${data.status}`);
-        }
-        const products = await data.json();
-        setProducts(products);
-      } catch (error) {
-        setError(error as Error);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchData();
-  }, []);
-
-  if (loading || !products) return <Spinner />;
-  if (error) throw error;
+  if (isLoading || !products) return <Spinner />;
 
   const numItemsInCart = cart.reduce((total, item) => total + item.quantity, 0);
 
