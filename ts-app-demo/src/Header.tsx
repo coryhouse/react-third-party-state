@@ -1,10 +1,11 @@
 import { Link, NavLink } from "react-router-dom";
-import { useCart } from "./context/cartContext";
-import { useUser } from "./context/userContext";
+import { cartAtom } from "./atoms/cartAtom";
+import { useAtom, useAtomValue } from "jotai";
+import { userAtom } from "./atoms/userAtom";
 
 export default function Header() {
-  const { cart } = useCart();
-  const { user, setUser } = useUser();
+  const cart = useAtomValue(cartAtom);
+  const [user, setUser] = useAtom(userAtom);
 
   return (
     <header>

@@ -2,12 +2,15 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Spinner from "./Spinner";
 import PageNotFound from "./PageNotFound";
-import { useCart } from "./context/cartContext";
+import { cartAtom } from "./atoms/cartAtom";
+import { useSetAtom } from "jotai";
 import { Product } from "./types/types";
 import toast from "react-hot-toast";
 
 export default function Detail() {
-  const { setCart } = useCart();
+  // Note that with useAtom this would trigger a render even though we only need the setter.
+  const setCart = useSetAtom(cartAtom);
+  // const [, setItems] = useAtom(cartAtom);
   const { id } = useParams();
   const [sku, setSku] = useState("");
   const [product, setProduct] = useState<Product | null>(null);

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { saveShippingAddress } from "./services/shippingService";
-import { useCart } from "./context/cartContext";
+import { cartAtom } from "./atoms/cartAtom";
+import { useSetAtom } from "jotai";
 import { ShippingAddress } from "./types/types";
 
 type Status = "Idle" | "Submitted" | "Submitting" | "Completed";
@@ -22,7 +23,7 @@ type Errors = {
 };
 
 export default function Checkout() {
-  const { setCart } = useCart();
+  const setCart = useSetAtom(cartAtom);
   const [address, setAddress] = useState(emptyAddress);
   const [status, setStatus] = useState<Status>("Idle");
   const [saveError, setSaveError] = useState<Error | null>(null);
