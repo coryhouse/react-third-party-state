@@ -4,7 +4,7 @@ import Spinner from "./Spinner";
 import PageNotFound from "./PageNotFound";
 import { Product } from "./types/types";
 import toast from "react-hot-toast";
-import { useShoeStore } from "./shoeStore";
+import { useShoeStore } from "./useShoeStore";
 
 export default function Detail() {
   const addToCart = useShoeStore((state) => state.addToCart);

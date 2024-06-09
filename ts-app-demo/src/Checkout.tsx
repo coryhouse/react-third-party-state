@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { saveShippingAddress } from "./services/shippingService";
 import { ShippingAddress } from "./types/types";
-import { useShoeStore } from "./shoeStore";
+import { useShoeStore } from "./useShoeStore";
 
 type Status = "Idle" | "Submitted" | "Submitting" | "Completed";
 

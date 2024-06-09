@@ -1,5 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
-import { useShoeStore } from "./shoeStore";
+import { useShoeStore } from "./useShoeStore";
 
 export default function Header() {
   const { cart } = useShoeStore();
