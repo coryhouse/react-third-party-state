@@ -1,10 +1,10 @@
 import { Link, NavLink } from "react-router-dom";
-import { useCart } from "./context/cartContext";
-import { useUser } from "./context/userContext";
+import { useShoeStore } from "./shoeStore";
 
 export default function Header() {
-  const { cart } = useCart();
-  const { user, setUser } = useUser();
+  // Note: This is NOT optimized. It will re-render on every store change.
+  // But since this component is basically using the entire store, a selector won't help.
+  const { cart, user, logOut, logIn } = useShoeStore();
 
   return (
     <header>
@@ -32,7 +32,7 @@ export default function Header() {
               <NavLink to="/account">Account</NavLink>
             ) : (
               <button
-                onClick={() => setUser({ id: 1, email: "cory@example.com" })}
+                onClick={() => logIn({ id: 1, email: "cory@example.com" })}
               >
                 Log in
               </button>
@@ -40,7 +40,7 @@ export default function Header() {
           </li>
           {user && (
             <li>
-              <button onClick={() => setUser(null)}>Log out</button>
+              <button onClick={logOut}>Log out</button>
             </li>
           )}
         </ul>

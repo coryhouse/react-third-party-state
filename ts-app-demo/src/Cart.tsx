@@ -1,11 +1,17 @@
 import Spinner from "./Spinner";
 import { useNavigate } from "react-router-dom";
-import { useCart } from "./context/cartContext";
+import { useShoeStore } from "./shoeStore";
 import { CartItem, Product } from "./types/types";
 import { useEffect, useState } from "react";
 
 export default function Cart() {
-  const { cart, setCart } = useCart();
+  // Not optimized
+  const { cart, updateCartQuantity } = useShoeStore();
+
+  // Optimized
+  // const updateCartQuantity = useStore((state) => state.updateCartQuantity);
+  // const cart = useStore((state) => state.cart);
+
   const navigate = useNavigate();
 
   const [products, setProducts] = useState<Product[] | null>(null);
@@ -57,12 +63,7 @@ export default function Cart() {
             <select
               aria-label={`Select quantity for ${name} size ${size}`}
               onChange={(e) => {
-                const quantity = parseInt(e.target.value);
-                setCart((cart) =>
-                  quantity === 0
-                    ? cart.filter((i) => i.sku !== sku)
-                    : cart.map((i) => (i.sku === sku ? { ...i, quantity } : i))
-                );
+                updateCartQuantity(sku, parseInt(e.target.value));
               }}
               value={quantity}
             >
