@@ -1,11 +1,12 @@
 import Spinner from "./Spinner";
 import { useNavigate } from "react-router-dom";
-import { useCart } from "./context/cartContext";
 import { CartItem, Product } from "./types/types";
 import { useEffect, useState } from "react";
+import { useSnapshot } from "valtio";
+import { cartState, updateQuantity } from "./valtio/cartState";
 
 export default function Cart() {
-  const { cart, setCart } = useCart();
+  const { cart } = useSnapshot(cartState);
   const navigate = useNavigate();
 
   const [products, setProducts] = useState<Product[] | null>(null);
@@ -58,11 +59,7 @@ export default function Cart() {
               aria-label={`Select quantity for ${name} size ${size}`}
               onChange={(e) => {
                 const quantity = parseInt(e.target.value);
-                setCart((cart) =>
-                  quantity === 0
-                    ? cart.filter((i) => i.sku !== sku)
-                    : cart.map((i) => (i.sku === sku ? { ...i, quantity } : i))
-                );
+                updateQuantity(sku, quantity);
               }}
               value={quantity}
             >

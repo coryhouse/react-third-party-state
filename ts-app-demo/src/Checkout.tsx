@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { saveShippingAddress } from "./services/shippingService";
-import { useCart } from "./context/cartContext";
 import { ShippingAddress } from "./types/types";
+import { emptyCart } from "./valtio/cartState";
 
 type Status = "Idle" | "Submitted" | "Submitting" | "Completed";
 
@@ -22,7 +22,6 @@ type Errors = {
 };
 
 export default function Checkout() {
-  const { setCart } = useCart();
   const [address, setAddress] = useState(emptyAddress);
   const [status, setStatus] = useState<Status>("Idle");
   const [saveError, setSaveError] = useState<Error | null>(null);
@@ -59,7 +58,7 @@ export default function Checkout() {
     if (isValid) {
       try {
         await saveShippingAddress(address);
-        setCart([]);
+        emptyCart();
         setStatus("Completed");
       } catch (e) {
         setSaveError(e as Error);
