@@ -1,36 +1,43 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Spinner from "./Spinner";
 import { useParams, Link } from "react-router-dom";
 import PageNotFound from "./PageNotFound";
 import { Product } from "./types/types";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export default function Products() {
   const [size, setSize] = useState("");
   const { category } = useParams();
 
-  const [products, setProducts] = useState<Product[] | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  const {
+    data: products,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: ["products", category],
+    queryFn: async () => {
+      const response = await fetch(
+        import.meta.env.VITE_APP_API_BASE_URL + "products?category=" + category
+      );
+      if (response.ok) return response.json() as unknown as Product[];
+      throw response;
+    },
+  });
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const data = await fetch(
-          import.meta.env.VITE_APP_API_BASE_URL + "products"
-        );
-        if (!data.ok) {
-          throw new Error(`Product not found: ${data.status}`);
-        }
-        const products = await data.json();
-        setProducts(products);
-      } catch (error) {
-        setError(error as Error);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchData();
-  }, []);
+  const queryClient = useQueryClient();
+
+  const deleteProduct = useMutation({
+    mutationFn: async (id: number) => {
+      const response = await fetch(
+        import.meta.env.VITE_APP_API_BASE_URL + "products/" + id,
+        { method: "DELETE" }
+      );
+      if (!response.ok) throw response;
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["products", category] });
+    },
+  });
 
   function renderProduct(p: Product) {
     return (
@@ -40,12 +47,13 @@ export default function Products() {
           <h3>{p.name}</h3>
           <p>${p.price}</p>
         </Link>
+        <button onClick={() => deleteProduct.mutate(p.id)}>Delete Shoe</button>
       </div>
     );
   }
 
   if (error) throw error;
-  if (loading) return <Spinner />;
+  if (isLoading) return <Spinner />;
   if (!products || products.length === 0) return <PageNotFound />;
 
   const filteredProducts = size
