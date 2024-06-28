@@ -1,10 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { Product } from "../types/types";
 
 const baseUrl = import.meta.env.VITE_APP_API_BASE_URL;
 
 export function useGetProductById(id: string | undefined) {
-  return useQuery({
+  return useSuspenseQuery({
     queryKey: ["product", id],
     queryFn: async () => {
       const response = await fetch(baseUrl + `products/${id}`);
@@ -15,7 +15,7 @@ export function useGetProductById(id: string | undefined) {
 }
 
 export function useGetProductsByCategory(category: string | undefined) {
-  return useQuery({
+  return useSuspenseQuery({
     queryKey: ["products", category],
     queryFn: async () => {
       const response = await fetch(baseUrl + "products?category=" + category);
@@ -32,7 +32,7 @@ export function useGetProductsById(productIds: number[]) {
     url.searchParams.append("id", id.toString())
   );
 
-  return useQuery({
+  return useSuspenseQuery({
     queryKey: ["products", Object.fromEntries(url.searchParams)], // https://www.reddit.com/r/reactjs/comments/15vjwfc/comment/jx2r8v0/
     queryFn: async () => {
       const response = await fetch(url);

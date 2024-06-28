@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import Spinner from "./Spinner";
 import PageNotFound from "./PageNotFound";
 import { useCart } from "./context/cartContext";
 import toast from "react-hot-toast";
@@ -11,9 +10,8 @@ export default function Detail() {
   const { id } = useParams();
   const [sku, setSku] = useState("");
 
-  const { isLoading, data: product } = useGetProductById(id);
+  const { data: product } = useGetProductById(id);
 
-  if (isLoading) return <Spinner />;
   if (!product || !id) return <PageNotFound />;
 
   return (
